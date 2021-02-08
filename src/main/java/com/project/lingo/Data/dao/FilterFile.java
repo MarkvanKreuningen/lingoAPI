@@ -1,7 +1,6 @@
-package com.project.lingo.port.dao;
+package com.project.lingo.Data.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface FilterFile {
     ArrayList<String> getList();

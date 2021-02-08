@@ -1,9 +1,11 @@
-package com.project.lingo.application;
+package com.project.lingo.Application;
 
-import com.project.lingo.domain.Lingo;
+import com.project.lingo.Domain.Lingo;
 
 public class LingoService {
     Lingo lingo = new Lingo();
+
+    //vanaf hier de database aanroepen
 
     public String start(int lengthWord) {
         lingo.setTeRadenWoord(lengthWord);

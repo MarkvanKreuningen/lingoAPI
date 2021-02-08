@@ -1,7 +1,7 @@
-package com.project.lingo.domain;
+package com.project.lingo.Domain;
 
-import com.project.lingo.application.FilterFileService;
-import com.project.lingo.application.ServiceProvider;
+import com.project.lingo.Application.FilterFileService;
+import com.project.lingo.Application.ServiceProvider;
 
 import java.util.*;
 

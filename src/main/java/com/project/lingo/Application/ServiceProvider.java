@@ -1,4 +1,4 @@
-package com.project.lingo.application;
+package com.project.lingo.Application;
 
 public class ServiceProvider {
     private static FilterFileService filterFileService = new FilterFileService();
