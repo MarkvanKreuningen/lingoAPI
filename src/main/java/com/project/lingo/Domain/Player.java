@@ -1,4 +1,4 @@
-package com.project.lingo.domain;
+package com.project.lingo.Domain;
 
 public class Player {
     private int score;

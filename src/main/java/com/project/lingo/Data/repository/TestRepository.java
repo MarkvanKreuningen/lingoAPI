@@ -1,8 +1,8 @@
-package com.project.lingo.port.repository;
+package com.project.lingo.Data.repository;
 
 import java.util.List;
 
-import com.project.lingo.domain.Test;
+import com.project.lingo.Domain.Test;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

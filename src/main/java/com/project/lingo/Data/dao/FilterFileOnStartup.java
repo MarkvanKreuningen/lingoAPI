@@ -1,10 +1,9 @@
-package com.project.lingo.port.dao;
+package com.project.lingo.Data.dao;
 
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 

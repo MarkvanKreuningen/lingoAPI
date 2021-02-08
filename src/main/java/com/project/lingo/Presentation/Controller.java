@@ -1,7 +1,7 @@
-package com.project.lingo.presentation;
+package com.project.lingo.Presentation;
 
-import com.project.lingo.application.LingoService;
-import com.project.lingo.application.ServiceProvider;
+import com.project.lingo.Application.LingoService;
+import com.project.lingo.Application.ServiceProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
