@@ -3,27 +3,18 @@ package com.project.lingo.Domain;
 import com.project.lingo.Application.FilterFileService;
 import com.project.lingo.Application.ServiceProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Lingo {
     FilterFileService filterFileService = ServiceProvider.getFilterFileService();
     private ArrayList<String> list = filterFileService.getFilteredList();
-    private String gegeven;
     private int score;
-    private String name;
     private String feedback;
     private int beurt;
     private String woordVanSpeler;
     private String teRadenWoord;
-    private boolean woordGeraden;
-
-    public void setWoordGeraden(boolean woordGeraden) {
-        this.woordGeraden = woordGeraden;
-    }
-
-    public int getBeurt() {
-        return beurt;
-    }
+    private String tijd;
 
     public void setBeurt() {
         this.beurt += 1;
@@ -31,7 +22,7 @@ public class Lingo {
 
     public String start() {
         this.beurt = 0;
-        this.woordGeraden = false;
+        this.tijd = new SimpleDateFormat("HH.mm.ss").format(new Date());
         return "Het woord van " +getTeRadenWoord().length() + " letters begint met een " + getTeRadenWoord().charAt(0);
     }
 
@@ -102,7 +93,6 @@ public class Lingo {
     }
 
     public String woordIsGeraden() {
-        this.woordGeraden = true;
         this.score += teRadenWoord.length();
         if (teRadenWoord.length() == 7)
             setTeRadenWoord(5);
