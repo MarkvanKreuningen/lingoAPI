@@ -1,5 +1,6 @@
 package com.project.lingo.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -21,24 +22,44 @@ public class Spel {
     @Column(name = "datum")
     private Date datum;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "speler_fk", referencedColumnName = "id")
     private Speler speler;
 
-    public int getTotaalPunten() {
-        return totaalPunten;
+    public Spel(long id, int totaalPunten, Date datum, Speler speler) {
+        this.id = id;
+        this.totaalPunten = totaalPunten;
+        this.datum = datum;
+        this.speler = speler;
+    }
+
+    public Spel(){
+
     }
 
     public long getId() {
         return id;
     }
 
-    public Date getDatum() {
-        return datum;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getTotaalPunten() {
+        return totaalPunten;
     }
 
     public void setTotaalPunten(int totaalPunten) {
         this.totaalPunten = totaalPunten;
+    }
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public void setDatum(Date datum) {
+        this.datum = datum;
     }
 
     public Speler getSpeler() {
