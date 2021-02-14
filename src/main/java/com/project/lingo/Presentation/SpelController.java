@@ -21,15 +21,8 @@ public class SpelController {
     SpelRepository spelRepository;
 
     @GetMapping()
-    public ResponseEntity<List<Spel>> getAlleSpellen(){
-        try {
-            List<Spel> spellen = new ArrayList<>(spelRepository.findAll());
-            if (spellen.isEmpty())
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            return new ResponseEntity<>(spellen, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public List<Spel> getAlleSpellen(){
+        return spelRepository.findAll();
     }
 
     @GetMapping("/{id}")

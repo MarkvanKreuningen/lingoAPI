@@ -10,17 +10,18 @@ import java.util.Date;
 public class Spel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column()
     private long id;
 
-    @Column()
+    @Column(name = "totaalpunten")
     private int totaalPunten;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column()
+    @Temporal(TemporalType.DATE)
+    @Column(name = "datum")
     private Date datum;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "speler_fk", referencedColumnName = "id")
     private Speler speler;
 
