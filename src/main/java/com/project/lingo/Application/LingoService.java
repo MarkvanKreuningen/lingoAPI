@@ -9,15 +9,13 @@ public class LingoService {
 
     public String start(int lengthWord) {
         lingo.setTeRadenWoord(lengthWord);
-        lingo.setBeurt();
-        lingo.setWoordGeraden(false);
-        return String.valueOf(lingo.getTeRadenWoord().charAt(0));
+        return lingo.start();
     }
 
-    public String spelerSpeelt(String raadbeurt) {
+    public String spelerSpeelt(String woordVanSpeler) {
         lingo.setBeurt();
-        lingo.setRaadBeurt(raadbeurt);
-        return lingo.getFeedback();
+        lingo.setWoordVanSpeler(woordVanSpeler);
+        return lingo.spelerSpeelt();
     }
 
 }
