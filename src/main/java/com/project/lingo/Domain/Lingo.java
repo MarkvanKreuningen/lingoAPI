@@ -3,51 +3,52 @@ package com.project.lingo.Domain;
 import com.project.lingo.Application.FilterFileService;
 import com.project.lingo.Application.ServiceProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Lingo {
     FilterFileService filterFileService = ServiceProvider.getFilterFileService();
     private ArrayList<String> list = filterFileService.getFilteredList();
-    private String gegeven;
     private int score;
-    private String name;
     private String feedback;
     private int beurt;
-    private String raadBeurt;
+    private String woordVanSpeler;
     private String teRadenWoord;
-    private boolean woordGeraden;
-
-    public void setWoordGeraden(boolean woordGeraden) {
-        this.woordGeraden = woordGeraden;
-    }
-
-    public int getBeurt() {
-        return beurt;
-    }
+    private String tijd;
 
     public void setBeurt() {
-        this.beurt = beurt + 1;
+        this.beurt += 1;
     }
 
-    public void setRaadBeurt(String raadBeurt) {
-        this.raadBeurt = raadBeurt;
+    public String start() {
+        this.beurt = 0;
+        this.tijd = new SimpleDateFormat("HH.mm.ss").format(new Date());
+        return "Het woord van " +getTeRadenWoord().length() + " letters begint met een " + getTeRadenWoord().charAt(0);
+    }
+
+    public String spelerSpeelt() {
+        if (teRadenWoord.equals(woordVanSpeler))
+            return woordIsGeraden();
+        else if (this.beurt >= 5)
+            return spelerIsAf(getFeedback());
+        else
+            return getFeedback();
+
+    }
+
+    public void setWoordVanSpeler(String woordVanSpeler) {
+        this.woordVanSpeler = woordVanSpeler;
     }
 
     public String getFeedback() {
-        feedback = "geen";
-        if (teRadenWoord.equals(raadBeurt)) {
-            feedback = "Je hebt het woord geraden gefeliciteerd!";
-            setWoordGeraden(true);
+        if (!teRadenWoord.equals("") && !woordVanSpeler.equals("")) {
+            if (woordVanSpeler.length() != teRadenWoord.length())
+                this.feedback = String.format("%s (ongeldig)", woordVanSpeler);
+            else
+                this.feedback = feedbackPerCharacter();
+
         } else {
-            if (!teRadenWoord.equals("") && !raadBeurt.equals("")) {
-                if (raadBeurt.length() != teRadenWoord.length()) {
-                    feedback = String.format("%s (ongeldig)", raadBeurt);
-                } else {
-                    feedback = feedbackPerCharacter();
-                }
-            } else {
-                feedback = "Niks ingevuld";
-            }
+            this.feedback = "Niks ingevuld";
         }
         return feedback;
     }
@@ -56,7 +57,7 @@ public class Lingo {
         Feedback[] feedback = new Feedback[teRadenWoord.length()];
         Arrays.fill(feedback, Feedback.ABSENT);
         char[] teRaden = teRadenWoord.toCharArray();
-        char[] geradenWoord = raadBeurt.toCharArray();
+        char[] geradenWoord = woordVanSpeler.toCharArray();
         for (int i = 0; i < teRadenWoord.length(); i++) {
             if (geradenWoord[i] == teRaden[i]) {
                 feedback[i] = Feedback.CORRECT;
@@ -71,7 +72,7 @@ public class Lingo {
                 }
             }
         }
-        System.out.println(teRadenWoord + ":" + raadBeurt + "\n" + Arrays.toString(feedback));
+        System.out.println(beurt + " : " + teRadenWoord + " : " + woordVanSpeler + "\n" + Arrays.toString(feedback));
         return Arrays.toString(feedback);
     }
 
@@ -84,12 +85,23 @@ public class Lingo {
         Random random = new Random();
         this.teRadenWoord = "";
         while (true) {
-            if (teRadenWoord.length() != lengte) {
+            if (teRadenWoord.length() != lengte)
                 teRadenWoord = list.get(random.nextInt(list.size()));
-            } else {
+            else
                 break;
-            }
         }
+    }
+
+    public String woordIsGeraden() {
+        this.score += teRadenWoord.length();
+        if (teRadenWoord.length() == 7)
+            setTeRadenWoord(5);
+        else setTeRadenWoord(teRadenWoord.length() + 1);
+        return "U heeft het woord geraden!\n" + start();
+    }
+
+    public String spelerIsAf(String laatsteFeedback) {
+        return laatsteFeedback + "\nHelaas u heeft het woord niet geraden.\nU eindigt met een score van " + this.score;
     }
 
 }
