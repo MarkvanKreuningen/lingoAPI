@@ -1,8 +1,6 @@
 package com.project.lingo.securingweb;
 
 import com.project.lingo.Data.dao.UserDetailsServiceDao;
-import com.project.lingo.Domain.MijnSpelerDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -44,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
+                .antMatchers("/", "/home", "/register").permitAll()
                 .antMatchers("/resources/**","/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
