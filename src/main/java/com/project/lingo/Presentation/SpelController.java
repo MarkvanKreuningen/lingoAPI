@@ -28,7 +28,7 @@ public class SpelController {
     }
 
     @GetMapping("/spel")
-    public ResponseEntity<List<Spel>> getAlleSpellen(@RequestParam(required = false) String gebruikersnaam){
+    public ResponseEntity<List<Spel>> getAlleSpellen(@RequestParam(required = false) String gebruikersnaam) {
         try {
             List<Spel> spellen = new ArrayList<>();
 
