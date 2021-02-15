@@ -23,6 +23,8 @@ public class Speler {
     @Column
     private String wachtwoord;
 
+    private String rol;
+
     @OneToMany(mappedBy = "speler")
     @JsonManagedReference
     private Collection<Spel> spellen;
@@ -77,5 +79,13 @@ public class Speler {
 
     public void setSpellen(Collection<Spel> spellen) {
         this.spellen = spellen;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }
