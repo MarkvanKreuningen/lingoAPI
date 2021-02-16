@@ -7,6 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Lingo {
+    //Nog te doen!
+    //Timer fixen
+    //
+
     FilterFileService filterFileService = ServiceProvider.getFilterFileService();
     private ArrayList<String> list = filterFileService.getFilteredList();
     private int score;
