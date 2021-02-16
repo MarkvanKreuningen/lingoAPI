@@ -1,10 +1,13 @@
 package com.project.lingo.Presentation;
 
+import com.project.lingo.Application.LingoService;
+import com.project.lingo.Application.ServiceProvider;
 import com.project.lingo.Data.repository.SpelRepository;
 import com.project.lingo.Data.repository.SpelerRepository;
 import com.project.lingo.Domain.Spel;
 import com.project.lingo.Domain.Speler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +22,21 @@ public class SpelController {
     @Autowired
     SpelRepository spelRepository;
 
-    @Autowired
-    SpelerRepository spelerRepository;
+    LingoService lingoService = ServiceProvider.getLingoService();
 
-    @GetMapping("/speler")
-    public List<Speler> getAlleSpelers() {
-        return spelerRepository.findAll();
+    @GetMapping(value = "/start")
+    public ResponseEntity<String> start() {
+        return ResponseEntity.ok().body(lingoService.start(5));
+    }
+
+    //! WERKT NOG NIET
+    @PostMapping(value = "/play")
+    public ResponseEntity<String> play(@RequestParam String geradenWoord) {
+        return ResponseEntity.ok(lingoService.spelerSpeelt(geradenWoord));
     }
 
     @GetMapping("/spel")
-    public ResponseEntity<List<Spel>> getAlleSpellen(@RequestParam(required = false) String gebruikersnaam){
+    public ResponseEntity<List<Spel>> getAlleSpellen(@RequestParam(required = false) String gebruikersnaam) {
         try {
             List<Spel> spellen = new ArrayList<>();
 

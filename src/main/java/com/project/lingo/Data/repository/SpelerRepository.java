@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SpelerRepository extends JpaRepository<Speler, Long> {
+    Speler findByGebruikersnaam(String gebruikersnaam);
 }
