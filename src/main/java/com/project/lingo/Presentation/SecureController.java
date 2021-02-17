@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/secure")
+@RequestMapping("/admin")
 public class SecureController {
     @Autowired
     SpelerRepository spelerRepository;

@@ -40,9 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     //NIET AF! Post doet het niet!
+    //Update 17-02
+    //werkt door httpBasic().and() toe te voegen. Wel nakijken hoe dit zit en wat dit nog meer toelaat
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.httpBasic().and()
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**", "/api/**/**").permitAll()
