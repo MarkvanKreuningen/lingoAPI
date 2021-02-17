@@ -10,5 +10,4 @@ public class LingoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LingoApplication.class, args);
 	}
-
 }

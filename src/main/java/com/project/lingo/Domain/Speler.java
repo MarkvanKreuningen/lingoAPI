@@ -1,6 +1,7 @@
 package com.project.lingo.Domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -14,18 +15,23 @@ public class Speler {
     @Column
     private long id;
 
-    @Column
+    @Column(unique = true)
+    @NotNull
     private String email;
 
-    @Column
+    @Column(unique = true)
+    @NotNull
     private String gebruikersnaam;
 
     @Column
+    @NotNull
     private String wachtwoord;
 
+    @NotNull
     private String rol;
 
-    @OneToMany(mappedBy = "speler")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "speler_fk", referencedColumnName = "id")
     @JsonManagedReference
     private Collection<Spel> spellen;
 

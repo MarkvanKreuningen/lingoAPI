@@ -12,9 +12,8 @@ public class Lingo {
     //
 
     FilterFileService filterFileService = ServiceProvider.getFilterFileService();
-    private ArrayList<String> list = filterFileService.getFilteredList();
+    private final ArrayList<String> list = filterFileService.getFilteredList();
     private int score;
-    private String feedback;
     private int beurt;
     private String woordVanSpeler;
     private String teRadenWoord;
@@ -47,37 +46,12 @@ public class Lingo {
     public String getFeedback() {
         if (!teRadenWoord.equals("") && !woordVanSpeler.equals("")) {
             if (woordVanSpeler.length() != teRadenWoord.length())
-                this.feedback = String.format("%s (ongeldig)", woordVanSpeler);
+                return String.format("%s (ongeldig)", woordVanSpeler);
             else
-                this.feedback = feedbackPerCharacter();
-
+                return new Poging(this.beurt, this.teRadenWoord, this.woordVanSpeler).toString();
         } else {
-            this.feedback = "Niks ingevuld";
+            return "Niks ingevuld";
         }
-        return feedback;
-    }
-
-    public String feedbackPerCharacter() {
-        Feedback[] feedback = new Feedback[teRadenWoord.length()];
-        Arrays.fill(feedback, Feedback.ABSENT);
-        char[] teRaden = teRadenWoord.toCharArray();
-        char[] geradenWoord = woordVanSpeler.toCharArray();
-        for (int i = 0; i < teRadenWoord.length(); i++) {
-            if (geradenWoord[i] == teRaden[i]) {
-                feedback[i] = Feedback.CORRECT;
-                teRaden[i] = '!';
-            }
-        }
-        for (int i = 0; i < teRadenWoord.length(); i++) {
-            for (int j = 0; j < teRadenWoord.length(); j++) {
-                if (geradenWoord[i] == teRaden[j] && feedback[i] == Feedback.ABSENT) {
-                    feedback[i] = Feedback.PRESENT;
-                    teRaden[j] = '!';
-                }
-            }
-        }
-        System.out.println(beurt + " : " + teRadenWoord + " : " + woordVanSpeler + "\n" + Arrays.toString(feedback));
-        return Arrays.toString(feedback);
     }
 
 
