@@ -1,10 +1,14 @@
 package com.project.lingo.Domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "spel")
@@ -25,18 +29,12 @@ public class Spel {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "speler_fk", referencedColumnName = "id")
+    @NotNull
     private Speler speler;
 
-    public Spel(long id, int totaalPunten, Date datum, Speler speler) {
-        this.id = id;
-        this.totaalPunten = totaalPunten;
-        this.datum = datum;
-        this.speler = speler;
-    }
-
-    public Spel(){
-
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "spel_fk", referencedColumnName = "id")
+    List<Poging> pogingen = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -68,5 +66,24 @@ public class Spel {
 
     public void setSpeler(Speler speler) {
         this.speler = speler;
+    }
+
+    public List<Poging> getPogingen() {
+        return pogingen;
+    }
+
+    public void setPogingen(List<Poging> pogingen) {
+        this.pogingen = pogingen;
+    }
+
+    @Override
+    public String toString() {
+        return "Spel{" +
+                "id=" + id +
+                ", totaalPunten=" + totaalPunten +
+                ", datum=" + datum +
+                ", speler=" + speler +
+                ", pogingen=" + pogingen +
+                '}';
     }
 }

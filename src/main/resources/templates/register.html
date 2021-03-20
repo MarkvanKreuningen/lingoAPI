@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Register</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -11,7 +10,7 @@
 </head>
 <body>
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form id="registreerAccount" method="post">
         <h2>Register</h2>
         <p class="hint-text">Already have an account? <a th:href="@{/login}">Sign in</a></p>
         <!--<div class="form-group">
@@ -21,24 +20,26 @@
             </div>
         </div>-->
         <div class="form-group">
-            <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+            <input type="text" class="form-control" name="username" id="gebruikersnaam" placeholder="Username" required="required">
         </div>
         <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+            <input type="password" class="form-control" name="password" id="wachtwoord" placeholder="Password" required="required">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
+            <input type="password" class="form-control" name="confirm_password" id="herhaalWachtwoord" placeholder="Confirm Password" required="required">
         </div>
         <div class="form-group">
             <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+            <button onclick="nieuwAccount()" class="btn btn-success btn-lg btn-block">Register Now</button>
         </div>
     </form>
 </div>
 </body>
+<script type="text/javascript" src="/account.js"></script>
+
 </html>

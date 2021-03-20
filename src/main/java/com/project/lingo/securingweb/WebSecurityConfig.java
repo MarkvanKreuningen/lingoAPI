@@ -39,22 +39,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    //NIET AF! Post doet het niet!
+    //Update 17-02
+    //werkt door httpBasic().and() toe te voegen. Wel nakijken hoe dit zit en wat dit nog meer toelaat
+    //vanaf 52 tm 58 commenten als je wilt inloggen via postman en httpbasic aanzetten.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/register").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/**", "/api/**/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**/**").permitAll()
+        http./*httpBasic().and()*/authorizeRequests()
+                .antMatchers("/", "/home", "/register", "/registration", "/game2players", "game1player").permitAll()
+                .antMatchers("/api/**", "/api/**/**").permitAll()
                 .antMatchers("/resources/**","/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .anyRequest().authenticated();
+                /*.and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll();*/
+        http.csrf().disable();
     }
 }

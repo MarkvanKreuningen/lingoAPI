@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+    <title>Document</title>
+
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link href="../static/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            Beta
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Lingo game spelen?</h4>
+            <p class="card-text">Lingo is mogelijk als 1 speler of als 2. Bij 2 spelers worden de punten niet opgeslagen</p>
+            <a class="btn btn-primary" th:href="@{/game1player}" href="game1player.html">1 Player</a>
+            <!-- <a class="btn btn-primary" th:href="@{/game2players}" href="game2players.html" style="margin-left: 40px;">2 Players</a> -->
+        </div>
+    </div>
+    <div id="gameVoor2Spelers">
+        <p>2 Players</p>
+        <form>
+            <input type="text" id="naamSpeler1" placeholder="Naam van speler 1" required />
+            <input type="text" id="naamSpeler2" placeholder="Naam van speler 2" required />
+            <input type="number" id="tijdPerBeurt" placeholder="Het aantal seconde per beurt" required />
+        </form>
+        <button onclick="start2SpelerGame()" class="btn btn-primary">Submit</button>
+    </div>
+</body>
+<script type="text/javascript" src="../static/js/startLingo.js"></script>
+<script type="text/javascript" th:src="@{js/startLingo.js}"></script>
+</html>

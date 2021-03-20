@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script th:src="@{/js/wachtwoordstrength.js}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="signup-form">
+    <form id="registreerAccount">
+        <h2>Register</h2>
+        <p class="hint-text">Already have an account? <a th:href="@{/login}">Sign in</a></p>
+        <!--<div class="form-group">
+            <div class="row">
+                <div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
+                <div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label for="gebruikersnaam" class="col-sm-3" th:utext="#{label.speler.gebruikersnaam}">first</label>
+            <input type="text" class="form-control" name="username" id="gebruikersnaam" placeholder="Username" required="required">
+<!--            <span id="gebruikersnaamError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        </div>
+        <div class="form-group">
+            <label for="email" class="col-sm-3" th:utext="#{label.speler.email}">first</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required">
+<!--            <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        </div>
+        <div class="form-group">
+            <label for="wachtwoord" class="col-sm-3" th:utext="#{label.speler.wachtwoord}">first</label>
+            <input type="password" class="form-control" name="password" id="wachtwoord" placeholder="Password" required="required">
+<!--            <span id="wachtwoordError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        </div>
+        <div class="form-group">
+            <label for="herhaalWachtwoord" class="col-sm-3" th:utext="#{label.speler.herhaalWachtwoord}">first</label>
+            <input type="password" class="form-control" name="confirm_password" id="herhaalWachtwoord" placeholder="Confirm Password" required="required">
+<!--            <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        </div>
+        <div class="form-group">
+            <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+        </div>
+        <div class="form-group">
+            <button onclick="nieuwAccount()" class="btn btn-success btn-lg btn-block">Registreer</button>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/js/account.js}"></script>
+
+</html>
