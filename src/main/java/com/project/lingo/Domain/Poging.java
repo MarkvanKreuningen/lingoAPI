@@ -21,7 +21,7 @@ public class Poging {
     @Column(name = "teradenwoord")
     private String teRadenWoord;
 
-    public Poging(int beurt, String woordVanSpeler, String teRadenWoord) {
+    public Poging(int beurt, String teRadenWoord, String woordVanSpeler) {
         this.beurt = beurt;
         this.woordVanSpeler = woordVanSpeler;
         this.teRadenWoord = teRadenWoord;
@@ -44,6 +44,7 @@ public class Poging {
             }
         }
         this.feedback = Arrays.toString(feedback);
+        System.out.println(this.feedback);
     }
 
     public Poging() {
@@ -89,6 +90,14 @@ public class Poging {
                 ", woordVanSpeler='" + woordVanSpeler + '\'' +
                 ", feedback='" + feedback + '\'' +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
+                '}';
+    }
+
+    public String toStringZonderTeRadenWoord(){
+        return "Poging{" +
+                "beurt=" + beurt +
+                ", woordVanSpeler='" + woordVanSpeler + '\'' +
+                ", feedback='" + feedback + '\'' +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package com.project.lingo.Domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -16,7 +17,6 @@ public class Speler {
     private long id;
 
     @Column(unique = true)
-    @NotNull
     private String email;
 
     @Column(unique = true)

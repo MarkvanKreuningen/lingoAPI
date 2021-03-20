@@ -10,28 +10,27 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Date;
 @SpringBootApplication
-public class FillScriptLingoApplication implements CommandLineRunner{
+public class FillScriptLingoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LingoApplication.class, args);
 	}
 
-    @Autowired
+@Autowired
 	private SpelerRepository spelerRepository;
 
 	@Autowired
 	private SpelRepository spelRepository;
 
-	@Override
 	public void run(String... args) throws Exception {
-		/*Speler speler = new Speler();
-		speler.setEmail("markvk14@gmail.com");
-		speler.setGebruikersnaam("Mark");
+		Speler speler = new Speler();
+		speler.setEmail("markvankreuningen@gmail.com");
+		speler.setGebruikersnaam("Mark2");
 		speler.setWachtwoord("$2a$10$.DucKyOjNqQTSEDJ//CaeOPlMJwauoXdXxSWQDGPvqRojr.c4LQEC");
-		speler.setRol("ADMIN");
+		speler.setRol("GUEST");
 		spelerRepository.save(speler);
 
-		Builder builder = new SpelBuilder();
+		/*Builder builder = new SpelBuilder();
 		builder.setTotaalPunten(5);
 		builder.setDatum(new Date());
 		builder.addToList(new Poging(1, "abdce", "aarde"));
@@ -42,4 +41,5 @@ public class FillScriptLingoApplication implements CommandLineRunner{
 		builder.setSpeler(spelerRepository.findByGebruikersnaam("Mark"));
 		spelRepository.save(builder.build());*/
 	}
+
 }

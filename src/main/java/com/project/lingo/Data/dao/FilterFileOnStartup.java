@@ -15,7 +15,7 @@ public class FilterFileOnStartup {
             Scanner input = new Scanner(new File("src/main/resources/static/basiswoorden-gekeurd.txt"));
             File file = new File("src/main/resources/static/basiswoorden-gekeurd-gefilterd.txt");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            String pattern = "^\\p{Alpha}{5,7}";
+            String pattern = "^\\p{Alpha}{5,11}";
             while (input.hasNextLine()) {
                 String word = input.nextLine();
                 if (Pattern.matches(pattern, word)) {
