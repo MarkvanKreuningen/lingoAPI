@@ -1,4 +1,4 @@
-package com.project.lingo;
+/*package com.project.lingo;
 
 import com.project.lingo.Data.repository.SpelRepository;
 import com.project.lingo.Data.repository.SpelerRepository;
@@ -30,7 +30,7 @@ public class FillScriptLingoApplication {
 		speler.setRol("GUEST");
 		spelerRepository.save(speler);
 
-		/*Builder builder = new SpelBuilder();
+		Builder builder = new SpelBuilder();
 		builder.setTotaalPunten(5);
 		builder.setDatum(new Date());
 		builder.addToList(new Poging(1, "abdce", "aarde"));
@@ -39,7 +39,7 @@ public class FillScriptLingoApplication {
 		builder.addToList(new Poging(4, "abcde", "aarde"));
 		builder.addToList(new Poging(5, "aarde", "aarde"));
 		builder.setSpeler(spelerRepository.findByGebruikersnaam("Mark"));
-		spelRepository.save(builder.build());*/
+		spelRepository.save(builder.build());
 	}
 
-}
+}*/
