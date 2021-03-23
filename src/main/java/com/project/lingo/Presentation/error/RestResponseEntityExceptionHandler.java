@@ -1,3 +1,4 @@
+/*
 package com.project.lingo.Presentation.error;
 
 import com.project.lingo.Presentation.util.GenericResponse;
@@ -74,3 +75,4 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
 }
+*/

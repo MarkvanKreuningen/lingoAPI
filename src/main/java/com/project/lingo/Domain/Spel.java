@@ -36,6 +36,16 @@ public class Spel {
     @JoinColumn(name = "spel_fk", referencedColumnName = "id")
     List<Poging> pogingen = new ArrayList<>();
 
+    public Spel(Speler speler){
+        this.speler = speler;
+        this.totaalPunten = 0;
+        this.datum = new Date();
+    }
+
+    public Spel() {
+
+    }
+
     public long getId() {
         return id;
     }
@@ -82,7 +92,6 @@ public class Spel {
                 "id=" + id +
                 ", totaalPunten=" + totaalPunten +
                 ", datum=" + datum +
-                ", speler=" + speler +
                 ", pogingen=" + pogingen +
                 '}';
     }

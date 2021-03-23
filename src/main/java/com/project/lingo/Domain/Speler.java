@@ -94,4 +94,16 @@ public class Speler {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    @Override
+    public String toString() {
+        return "Speler{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", gebruikersnaam='" + gebruikersnaam + '\'' +
+                ", wachtwoord='" + wachtwoord + '\'' +
+                ", rol='" + rol + '\'' +
+                ", spellen=" + spellen +
+                '}';
+    }
 }

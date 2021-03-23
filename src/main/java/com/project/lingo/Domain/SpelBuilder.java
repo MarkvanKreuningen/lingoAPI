@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SpelBuilder implements Builder{
+public class SpelBuilder implements Builder {
     private int totaalPunten;
     private Date datum;
     private Speler speler;

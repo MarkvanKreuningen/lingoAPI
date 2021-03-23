@@ -1,7 +1,7 @@
 package com.project.lingo.Domain;
 
 import com.project.lingo.Application.FilterFileService;
-import com.project.lingo.Application.ServiceProvider;
+import com.project.lingo.Application.IFilterFileService;
 
 import java.util.*;
 
@@ -9,9 +9,8 @@ public class Lingo {
     //Nog te doen!
     //Timer fixen
     //
-
-    FilterFileService filterFileService = ServiceProvider.getFilterFileService();
-    private final ArrayList<String> list = filterFileService.getFilteredList();
+    IFilterFileService filterFileService = new FilterFileService();
+    final List<String> list = filterFileService.getFilteredList();
     private int beurt;
     private String woordVanSpeler;
     private String teRadenWoord;
@@ -23,6 +22,14 @@ public class Lingo {
     }
     public void setSpel(Spel spel){
         this.spel = spel;
+    }
+
+    public Spel getSpel() {
+        return spel;
+    }
+
+    public Lingo(){
+
     }
 
     public String start() {
@@ -92,4 +99,14 @@ public class Lingo {
         return laatsteFeedback + "\nHelaas u heeft het woord niet geraden.\nU eindigt met een score van " + this.spel.getTotaalPunten();
     }
 
+    @Override
+    public String toString() {
+        return "Lingo{" +
+                "beurt=" + beurt +
+                ", woordVanSpeler='" + woordVanSpeler + '\'' +
+                ", teRadenWoord='" + teRadenWoord + '\'' +
+                ", startTijd=" + startTijd +
+                ", spel=" + spel +
+                '}';
+    }
 }

@@ -1,5 +1,6 @@
 package com.project.lingo.Presentation.controller;
 
+import com.project.lingo.Application.ISpelerService;
 import com.project.lingo.Data.repository.SpelerRepository;
 import com.project.lingo.Domain.Speler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class SecureController {
-    @Autowired
-    SpelerRepository spelerRepository;
+    private ISpelerService spelerService;
 
     @RolesAllowed("ADMIN")
     @GetMapping("/speler")
     public List<Speler> getAlleSpelers() {
-        return spelerRepository.findAll();
+        return spelerService.vindAlle();
     }
 }

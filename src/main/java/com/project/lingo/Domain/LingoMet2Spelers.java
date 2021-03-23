@@ -1,17 +1,18 @@
 package com.project.lingo.Domain;
 
 import com.project.lingo.Application.FilterFileService;
-import com.project.lingo.Application.ServiceProvider;
+import com.project.lingo.Application.IFilterFileService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class LingoMet2Spelers {
-    FilterFileService filterFileService = ServiceProvider.getFilterFileService();
-    private final ArrayList<String> list = filterFileService.getFilteredList();
+    IFilterFileService filterFileService = new FilterFileService();
+    final List<String> list = filterFileService.getFilteredList();
     private int tijdPerBeurt;
     private SpelMet2Spelers spel;
-    private String teRadenWoord;
+    String teRadenWoord;
     private Beurt beurt;
     private String naamSpeler1;
     private String naamSpeler2;
@@ -65,10 +66,7 @@ public class LingoMet2Spelers {
     @Override
     public String toString() {
         return "LingoMet2Spelers{" +
-                "filterFileService=" + filterFileService +
-                ", list=" + list +
-                ", tijdPerBeurt=" + tijdPerBeurt +
-                ", spel=" + spel +
+                "tijdPerBeurt=" + tijdPerBeurt +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
                 ", beurt=" + beurt +
                 ", naamSpeler1='" + naamSpeler1 + '\'' +
