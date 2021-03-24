@@ -36,7 +36,7 @@ public class Game {
     List<Poging> attempts = new ArrayList<>();
 
     public Game(User user){
-        //this.user = user;
+        this.user = user;
         this.totalPoints = 0;
         this.date = new Date();
     }
@@ -68,14 +68,6 @@ public class Game {
     public void setDate(Date datum) {
         this.date = datum;
     }
-
-    /*public User getSpeler() {
-        return user;
-    }
-
-    public void setSpeler(User user) {
-        this.user = user;
-    }*/
 
     public List<Poging> getAttempts() {
         return attempts;
