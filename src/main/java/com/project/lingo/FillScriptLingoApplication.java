@@ -1,25 +1,21 @@
 package com.project.lingo;
 
-import com.project.lingo.Data.repository.SpelRepository;
-import com.project.lingo.Data.repository.SpelerRepository;
-import com.project.lingo.Domain.*;
+import com.project.lingo.Data.repository.GameRepository;
+import com.project.lingo.Data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
+
 @Component
 public class FillScriptLingoApplication {
 
 
 	@Autowired
-	private SpelerRepository spelerRepository;
+	private UserRepository spelerRepository;
 
 	@Autowired
-	private SpelRepository spelRepository;
+	private GameRepository gameRepository;
 
 	@PostConstruct
 	public void main() throws Exception {

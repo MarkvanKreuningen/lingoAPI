@@ -1,11 +1,9 @@
 package com.project.lingo.Presentation.controller;
 
 import com.project.lingo.Application.ILingoService;
-import com.project.lingo.Application.ISpelService;
-import com.project.lingo.Application.ISpelerService;
-import com.project.lingo.Data.repository.SpelRepository;
+import com.project.lingo.Application.IGameService;
+import com.project.lingo.Application.IUserService;
 import com.project.lingo.Domain.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,31 +11,28 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class SpelController {
+public class GameController {
     private ILingoService lingoService;
-    private ISpelerService spelerService;
-    private ISpelService spelService;
+    private IUserService userService;
+    private IGameService gameService;
 
-    public SpelController(ILingoService lingoService, ISpelerService spelerService, ISpelService spelService) {
+    public GameController(ILingoService lingoService, IUserService userService, IGameService gameService) {
         this.lingoService = lingoService;
-        this.spelerService = spelerService;
-        this.spelService = spelService;
+        this.userService = userService;
+        this.gameService = gameService;
     }
 
     //Spring security toepassen om de objecten uit de securityContextHolder mee te nemen.
     @RequestMapping(value = "/start", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> start(){
-        System.out.println("hello");
         try {
             //Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Speler speler = spelerService.vindSpelerBijEmail("markvankreuningen@gmail.com");
-            System.out.println("hello2");
-            Spel spel = spelService.nieuwSpel(speler);
-            return ResponseEntity.ok(spel.getId());
+            User user = userService.findByEmail("markvankreuningen@gmail.com");
+            Game game = gameService.nieuwSpel(user);
+            return ResponseEntity.ok(game.getId());
         } catch (Exception e){
             System.out.println(e.toString());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,9 +42,9 @@ public class SpelController {
     @RequestMapping(value = "/start2", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> start2(@RequestParam(required = false) String emailVanGebruiker) {
         try {
-            Speler speler = spelerService.vindSpelerBijEmail(emailVanGebruiker);
-            if (speler != null){
-                return ResponseEntity.ok().body(lingoService.start(5, speler).toString());
+            User user = userService.findByEmail(emailVanGebruiker);
+            if (user != null){
+                return ResponseEntity.ok().body(lingoService.start(5, user).toString());
             }
             return ResponseEntity.ok().body(lingoService.start(5, null).toString());
         } catch (Exception e) {
@@ -63,14 +58,14 @@ public class SpelController {
     }
 
     @GetMapping("/spel")
-    public ResponseEntity<List<Spel>> getAlleSpellen(@RequestParam(required = false) String gebruikersnaam) {
+    public ResponseEntity<List<Game>> getAlleSpellen(@RequestParam(required = false) String gebruikersnaam) {
         try {
-            List<Spel> spellen = new ArrayList<>();
+            List<Game> spellen = new ArrayList<>();
 
             if (gebruikersnaam == null)
-                spellen.addAll(spelService.vindAlle());
+                spellen.addAll(gameService.findAll());
             else
-                spellen.addAll(spelerService.vindSpellenBySpelerGebruikersnaam(gebruikersnaam));
+                spellen.addAll(userService.findGamesByUsername(gebruikersnaam));
 
             if (spellen.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -82,8 +77,8 @@ public class SpelController {
     }
 
     @GetMapping("/spel/{id}")
-    public Spel getTestById(@PathVariable("id") long id) {
-        return spelService.vindById(id);
+    public Game getTestById(@PathVariable("id") long id) {
+        return gameService.findById(id);
     }
 
     /*@GetMapping("/spel/{id}")

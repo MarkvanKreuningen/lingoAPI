@@ -15,17 +15,17 @@ public class Lingo {
     private String woordVanSpeler;
     private String teRadenWoord;
     private long startTijd;
-    private Spel spel;
+    private Game game;
 
     public void setBeurt() {
         this.beurt += 1;
     }
-    public void setSpel(Spel spel){
-        this.spel = spel;
+    public void setSpel(Game game){
+        this.game = game;
     }
 
-    public Spel getSpel() {
-        return spel;
+    public Game getSpel() {
+        return game;
     }
 
     public Lingo(){
@@ -88,7 +88,7 @@ public class Lingo {
     }
 
     public String woordIsGeraden() {
-        this.spel.setTotaalPunten(spel.getTotaalPunten() + teRadenWoord.length());
+        this.game.setTotalPoints(game.getTotalPoints() + teRadenWoord.length());
         if (teRadenWoord.length() == 7)
             setTeRadenWoord(5);
         else setTeRadenWoord(teRadenWoord.length() + 1);
@@ -96,7 +96,7 @@ public class Lingo {
     }
 
     public String spelerIsAf(String laatsteFeedback) {
-        return laatsteFeedback + "\nHelaas u heeft het woord niet geraden.\nU eindigt met een score van " + this.spel.getTotaalPunten();
+        return laatsteFeedback + "\nHelaas u heeft het woord niet geraden.\nU eindigt met een score van " + this.game.getTotalPoints();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Lingo {
                 ", woordVanSpeler='" + woordVanSpeler + '\'' +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
                 ", startTijd=" + startTijd +
-                ", spel=" + spel +
+                ", spel=" + game +
                 '}';
     }
 }

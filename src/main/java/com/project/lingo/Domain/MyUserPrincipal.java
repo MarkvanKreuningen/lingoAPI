@@ -7,27 +7,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class MijnSpelerDetails implements UserDetails {
+public class MyUserPrincipal implements UserDetails {
     private User user;
 
-    public MijnSpelerDetails(User user) {
+    public MyUserPrincipal(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRol());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(this.user.getRol());
         return Arrays.asList(authority);
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return this.user.getUsername();
     }
 
     @Override
@@ -48,5 +48,6 @@ public class MijnSpelerDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+        //return this.user.getActive() == 1;
     }
 }

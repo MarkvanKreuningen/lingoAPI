@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "speler")
-public class Speler {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +19,13 @@ public class Speler {
     @Column(unique = true)
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "gebruikersnaam")
     @NotNull
-    private String gebruikersnaam;
+    private String username;
 
     @Column
     @NotNull
-    private String wachtwoord;
+    private String password;
 
     @NotNull
     private String rol;
@@ -33,17 +33,27 @@ public class Speler {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "speler_fk", referencedColumnName = "id")
     @JsonManagedReference
-    private Collection<Spel> spellen;
+    private Collection<Game> spellen;
 
-    public Speler(long id, String email, String gebruikersnaam, String wachtwoord, Collection<Spel> spellen) {
+    /*private int active;
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }*/
+
+    public User(long id, String email, String username, String password, Collection<Game> spellen) {
         this.id = id;
         this.email = email;
-        this.gebruikersnaam = gebruikersnaam;
-        this.wachtwoord = wachtwoord;
+        this.username = username;
+        this.password = password;
         this.spellen = spellen;
     }
 
-    public Speler(){
+    public User(){
 
     }
 
@@ -63,27 +73,27 @@ public class Speler {
         this.email = email;
     }
 
-    public String getGebruikersnaam() {
-        return gebruikersnaam;
+    public String getUsername() {
+        return username;
     }
 
-    public void setGebruikersnaam(String gebruikersnaam) {
-        this.gebruikersnaam = gebruikersnaam;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getWachtwoord() {
-        return wachtwoord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setWachtwoord(String wachtwoord) {
-        this.wachtwoord = wachtwoord;
+    public void setPassword(String wachtwoord) {
+        this.password = wachtwoord;
     }
 
-    public Collection<Spel> getSpellen() {
+    public Collection<Game> getSpellen() {
         return spellen;
     }
 
-    public void setSpellen(Collection<Spel> spellen) {
+    public void setSpellen(Collection<Game> spellen) {
         this.spellen = spellen;
     }
 
@@ -100,8 +110,8 @@ public class Speler {
         return "Speler{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", gebruikersnaam='" + gebruikersnaam + '\'' +
-                ", wachtwoord='" + wachtwoord + '\'' +
+                ", gebruikersnaam='" + username + '\'' +
+                ", wachtwoord='" + password + '\'' +
                 ", rol='" + rol + '\'' +
                 ", spellen=" + spellen +
                 '}';

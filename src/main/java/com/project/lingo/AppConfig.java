@@ -1,39 +1,39 @@
 package com.project.lingo;
 
 import com.project.lingo.Application.*;
-import com.project.lingo.Data.repository.SpelRepository;
-import com.project.lingo.Data.repository.SpelerRepository;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.lingo.Data.repository.GameRepository;
+import com.project.lingo.Data.repository.UserRepository;
+import com.project.lingo.Domain.Game;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityManagerFactory;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 //https://docs.spring.io/spring-javaconfig/docs/1.0.0.m3/reference/html/creating-bean-definitions.html
 //https://www.baeldung.com/spring-component-scanning
-//voor het schrijven van de testen
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "com")
 public class AppConfig {
     @Bean
-    public ILingoService lingoService(SpelRepository spelRepository){
-        return new LingoService(spelRepository);
+    public ILingoService lingoService(GameRepository gameRepository){
+        return new LingoService(gameRepository);
     }
 
     @Bean
-    public ISpelerService spelerService(SpelerRepository spelerRepository){
-        return new SpelerService(spelerRepository);
+    public IUserService userService(UserRepository repository, GameRepository gameRepository){
+        return new UserService(repository, gameRepository);
     }
     @Bean
-    public SpelService spelService(SpelRepository spelRepository){
-        return new SpelService(spelRepository);
+    public GameService gameService(GameRepository gameRepository){
+        return new GameService(gameRepository);
     }
+
+    /*@Bean
+    public UserDetailsService userDetailsService(UserRepository repository){
+        return new MyUserDetailsService(repository);
+    }*/
 
 
     /*@Autowired

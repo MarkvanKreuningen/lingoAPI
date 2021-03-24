@@ -16,24 +16,24 @@
     <form id="registreerAccount" action="/" method="POST" enctype="text/plain">
         <p class="hint-text">Already have an account? <a th:href="@{/login}">Sign in</a></p>
         <div class="form-group row" >
-            <label for="gebruikersnaam" class="col-sm-3" th:utext="#{label.speler.gebruikersnaam}">first</label>
+            <label for="gebruikersnaam" class="col-sm-3" th:utext="#{label.user.gebruikersnaam}">first</label>
             <span class="col-sm-5"><input id="gebruikersnaam" class="form-control" name="gebruikersnaam" value="" required="required"/></span>
             <span id="firstNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
 
         </div>
         <div class="form-group row">
-            <label for="email" class="col-sm-3" th:utext="#{label.speler.email}">email</label>
+            <label for="email" class="col-sm-3" th:utext="#{label.user.email}">email</label>
             <span class="col-sm-5"><input id="email" type="email" class="form-control" name="email" value="" required="required"/></span>
             <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>
 
         </div>
         <div class="form-group row">
-            <label for="password" class="col-sm-3" th:utext="#{label.speler.wachtwoord}">password</label>
+            <label for="password" class="col-sm-3" th:utext="#{label.user.wachtwoord}">password</label>
             <span class="col-sm-5"><input id="password" class="form-control" name="wachtwoord" value="" type="password" required="required" autocomplete="new-password"/></span>
             <span id="passwordError" class="alert alert-danger col-sm-4" style="display:none"></span>
         </div>
         <div class="form-group row">
-            <label for="matchingWachtwoord" class="col-sm-3" th:utext="#{label.speler.herhaalWachtwoord}">confirm</label>
+            <label for="matchingWachtwoord" class="col-sm-3" th:utext="#{label.user.herhaalWachtwoord}">confirm</label>
             <span class="col-sm-5"><input id="matchingWachtwoord" class="form-control" name="matchingWachtwoord" value="" type="password" required="required" autocomplete="new-password"/></span>
             <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
         </div>

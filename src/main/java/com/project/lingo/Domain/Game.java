@@ -1,7 +1,6 @@
 package com.project.lingo.Domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,37 +11,37 @@ import java.util.List;
 
 @Entity
 @Table(name = "spel")
-public class Spel {
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column()
     private long id;
 
     @Column(name = "totaalpunten")
-    private int totaalPunten;
+    private int totalPoints;
 
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     @Column(name = "datum")
-    private Date datum;
+    private Date date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "speler_fk", referencedColumnName = "id")
     @NotNull
-    private Speler speler;
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "spel_fk", referencedColumnName = "id")
-    List<Poging> pogingen = new ArrayList<>();
+    List<Poging> attempts = new ArrayList<>();
 
-    public Spel(Speler speler){
-        this.speler = speler;
-        this.totaalPunten = 0;
-        this.datum = new Date();
+    public Game(User user){
+        //this.user = user;
+        this.totalPoints = 0;
+        this.date = new Date();
     }
 
-    public Spel() {
+    public Game() {
 
     }
 
@@ -54,45 +53,45 @@ public class Spel {
         this.id = id;
     }
 
-    public int getTotaalPunten() {
-        return totaalPunten;
+    public int getTotalPoints() {
+        return totalPoints;
     }
 
-    public void setTotaalPunten(int totaalPunten) {
-        this.totaalPunten = totaalPunten;
+    public void setTotalPoints(int totaalPunten) {
+        this.totalPoints = totaalPunten;
     }
 
-    public Date getDatum() {
-        return datum;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDatum(Date datum) {
-        this.datum = datum;
+    public void setDate(Date datum) {
+        this.date = datum;
     }
 
-    public Speler getSpeler() {
-        return speler;
+    /*public User getSpeler() {
+        return user;
     }
 
-    public void setSpeler(Speler speler) {
-        this.speler = speler;
+    public void setSpeler(User user) {
+        this.user = user;
+    }*/
+
+    public List<Poging> getAttempts() {
+        return attempts;
     }
 
-    public List<Poging> getPogingen() {
-        return pogingen;
-    }
-
-    public void setPogingen(List<Poging> pogingen) {
-        this.pogingen = pogingen;
+    public void setAttempts(List<Poging> pogingen) {
+        this.attempts = pogingen;
     }
 
     @Override
     public String toString() {
         return "Spel{" +
                 "id=" + id +
-                ", totaalPunten=" + totaalPunten +
-                ", datum=" + datum +
-                ", pogingen=" + pogingen +
+                ", totaalPunten=" + totalPoints +
+                ", datum=" + date +
+                ", pogingen=" + attempts +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.project.lingo.Domain;
 
-public enum SpelerRole {
+public enum UserRole {
     ADMIN,
     USER
 }

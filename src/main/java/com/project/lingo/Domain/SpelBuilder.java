@@ -7,7 +7,7 @@ import java.util.List;
 public class SpelBuilder implements Builder {
     private int totaalPunten;
     private Date datum;
-    private Speler speler;
+    private User user;
     private List<Poging> pogingList = new ArrayList<>();
 
     @Override
@@ -21,8 +21,8 @@ public class SpelBuilder implements Builder {
     }
 
     @Override
-    public void setSpeler(Speler speler) {
-        this.speler = speler;
+    public void setSpeler(User user) {
+        this.user = user;
     }
 
     @Override
@@ -31,12 +31,12 @@ public class SpelBuilder implements Builder {
     }
 
     @Override
-    public Spel build() {
-        Spel spel = new Spel();
-        spel.setTotaalPunten(totaalPunten);
-        spel.setDatum(datum);
-        spel.setSpeler(speler);
-        spel.setPogingen(pogingList);
-        return spel;
+    public Game build() {
+        Game game = new Game();
+        game.setTotalPoints(totaalPunten);
+        game.setDate(datum);
+        //game.setSpeler(user);
+        game.setAttempts(pogingList);
+        return game;
     }
 }

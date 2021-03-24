@@ -21,7 +21,7 @@
         </div>
         <div class="card-body">
             <h4 class="card-title">Lingo game spelen?</h4>
-            <p class="card-text">Lingo is mogelijk als 1 speler of als 2. Bij 2 spelers worden de punten niet opgeslagen</p>
+            <p class="card-text">Lingo is mogelijk als 1 user of als 2. Bij 2 spelers worden de punten niet opgeslagen</p>
             <a class="btn btn-primary" th:href="@{/game1player}" href="game1player.html">1 Player</a>
             <!-- <a class="btn btn-primary" th:href="@{/game2players}" href="game2players.html" style="margin-left: 40px;">2 Players</a> -->
         </div>
@@ -29,8 +29,8 @@
     <div id="gameVoor2Spelers">
         <p>2 Players</p>
         <form>
-            <input type="text" id="naamSpeler1" placeholder="Naam van speler 1" required />
-            <input type="text" id="naamSpeler2" placeholder="Naam van speler 2" required />
+            <input type="text" id="naamSpeler1" placeholder="Naam van user 1" required />
+            <input type="text" id="naamSpeler2" placeholder="Naam van user 2" required />
             <input type="number" id="tijdPerBeurt" placeholder="Het aantal seconde per beurt" required />
         </form>
         <button onclick="start2SpelerGame()" class="btn btn-primary">Submit</button>
