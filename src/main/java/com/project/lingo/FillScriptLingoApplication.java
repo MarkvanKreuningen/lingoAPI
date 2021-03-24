@@ -1,31 +1,27 @@
-/*package com.project.lingo;
+package com.project.lingo;
 
-import com.project.lingo.Data.repository.SpelRepository;
-import com.project.lingo.Data.repository.SpelerRepository;
-import com.project.lingo.Domain.*;
+import com.project.lingo.Data.repository.GameRepository;
+import com.project.lingo.Data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
-import java.util.Date;
-@SpringBootApplication
+import javax.annotation.PostConstruct;
+
+@Component
 public class FillScriptLingoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LingoApplication.class, args);
-	}
-
-@Autowired
-	private SpelerRepository spelerRepository;
 
 	@Autowired
-	private SpelRepository spelRepository;
+	private UserRepository spelerRepository;
 
-	public void run(String... args) throws Exception {
-		Speler speler = new Speler();
-		speler.setEmail("markvankreuningen@gmail.com");
-		speler.setGebruikersnaam("Mark2");
+	@Autowired
+	private GameRepository gameRepository;
+
+	@PostConstruct
+	public void main() throws Exception {
+		/*Speler speler = new Speler();
+		speler.setEmail("welkom@gmail.com");
+		speler.setGebruikersnaam("Mark3");
 		speler.setWachtwoord("$2a$10$.DucKyOjNqQTSEDJ//CaeOPlMJwauoXdXxSWQDGPvqRojr.c4LQEC");
 		speler.setRol("GUEST");
 		spelerRepository.save(speler);
@@ -38,8 +34,8 @@ public class FillScriptLingoApplication {
 		builder.addToList(new Poging(3, "abcde", "aarde"));
 		builder.addToList(new Poging(4, "abcde", "aarde"));
 		builder.addToList(new Poging(5, "aarde", "aarde"));
-		builder.setSpeler(spelerRepository.findByGebruikersnaam("Mark"));
-		spelRepository.save(builder.build());
+		builder.setSpeler(spelerRepository.findSpelerByEmail("welkom@gmail.com"));
+		spelRepository.save(builder.build());*/
 	}
 
-}*/
+}

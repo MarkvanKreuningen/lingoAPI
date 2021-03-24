@@ -1,9 +1,10 @@
 package com.project.lingo.securingweb;
 
-import com.project.lingo.Data.dao.UserDetailsServiceDao;
+import com.project.lingo.Application.MyUserDetailsService;
+import com.project.lingo.Data.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService(){
-        return new UserDetailsServiceDao();
+        return new MyUserDetailsService();
     }
 
     @Bean
@@ -44,18 +45,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //vanaf 52 tm 58 commenten als je wilt inloggen via postman en httpbasic aanzetten.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http./*httpBasic().and()*/authorizeRequests()
-                .antMatchers("/", "/home", "/register", "/registration", "/game2players", "game1player").permitAll()
+        http.httpBasic().and().authorizeRequests()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/", "/home", "/registration", "/login").permitAll()
+                //.antMatchers("/game2players", "/game1player").permitAll()
                 .antMatchers("/api/**", "/api/**/**").permitAll()
                 .antMatchers("/resources/**","/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
-                .anyRequest().authenticated();
-                /*.and()
+                .and()
+                .csrf().disable()
+                .formLogin().disable();
+
+
+        http./*httpBasic().and()*/authorizeRequests()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/", "/home", "/register", "/login").permitAll()
+                //.antMatchers("/registration", "/game2players", "/game1player").permitAll()
+                .antMatchers("/api/**", "/api/**/**").permitAll()
+                .antMatchers("/resources/**","/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();*/
+                .permitAll();
         http.csrf().disable();
     }
+
+    
 }

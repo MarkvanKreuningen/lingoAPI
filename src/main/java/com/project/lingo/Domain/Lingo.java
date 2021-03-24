@@ -1,7 +1,7 @@
 package com.project.lingo.Domain;
 
 import com.project.lingo.Application.FilterFileService;
-import com.project.lingo.Application.ServiceProvider;
+import com.project.lingo.Application.IFilterFileService;
 
 import java.util.*;
 
@@ -9,20 +9,27 @@ public class Lingo {
     //Nog te doen!
     //Timer fixen
     //
-
-    FilterFileService filterFileService = ServiceProvider.getFilterFileService();
-    private final ArrayList<String> list = filterFileService.getFilteredList();
+    IFilterFileService filterFileService = new FilterFileService();
+    final List<String> list = filterFileService.getFilteredList();
     private int beurt;
     private String woordVanSpeler;
     private String teRadenWoord;
     private long startTijd;
-    private Spel spel;
+    private Game game;
 
     public void setBeurt() {
         this.beurt += 1;
     }
-    public void setSpel(Spel spel){
-        this.spel = spel;
+    public void setSpel(Game game){
+        this.game = game;
+    }
+
+    public Game getSpel() {
+        return game;
+    }
+
+    public Lingo(){
+
     }
 
     public String start() {
@@ -81,7 +88,7 @@ public class Lingo {
     }
 
     public String woordIsGeraden() {
-        this.spel.setTotaalPunten(spel.getTotaalPunten() + teRadenWoord.length());
+        this.game.setTotalPoints(game.getTotalPoints() + teRadenWoord.length());
         if (teRadenWoord.length() == 7)
             setTeRadenWoord(5);
         else setTeRadenWoord(teRadenWoord.length() + 1);
@@ -89,7 +96,17 @@ public class Lingo {
     }
 
     public String spelerIsAf(String laatsteFeedback) {
-        return laatsteFeedback + "\nHelaas u heeft het woord niet geraden.\nU eindigt met een score van " + this.spel.getTotaalPunten();
+        return laatsteFeedback + "\nHelaas u heeft het woord niet geraden.\nU eindigt met een score van " + this.game.getTotalPoints();
     }
 
+    @Override
+    public String toString() {
+        return "Lingo{" +
+                "beurt=" + beurt +
+                ", woordVanSpeler='" + woordVanSpeler + '\'' +
+                ", teRadenWoord='" + teRadenWoord + '\'' +
+                ", startTijd=" + startTijd +
+                ", spel=" + game +
+                '}';
+    }
 }

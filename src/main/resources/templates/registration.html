@@ -11,42 +11,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<h1 th:text="#{label.form.title}">form</h1>
 <div class="signup-form">
-    <form id="registreerAccount">
-        <h2>Register</h2>
+    <form id="registreerAccount" action="/" method="POST" enctype="text/plain">
         <p class="hint-text">Already have an account? <a th:href="@{/login}">Sign in</a></p>
-        <!--<div class="form-group">
-            <div class="row">
-                <div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
-                <div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
-            </div>
-        </div>-->
-        <div class="form-group">
-            <label for="gebruikersnaam" class="col-sm-3" th:utext="#{label.speler.gebruikersnaam}">first</label>
-            <input type="text" class="form-control" name="username" id="gebruikersnaam" placeholder="Username" required="required">
-<!--            <span id="gebruikersnaamError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        <div class="form-group row" >
+            <label for="gebruikersnaam" class="col-sm-3" th:utext="#{label.user.gebruikersnaam}">first</label>
+            <span class="col-sm-5"><input id="gebruikersnaam" class="form-control" name="gebruikersnaam" value="" required="required"/></span>
+            <span id="firstNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
+
         </div>
-        <div class="form-group">
-            <label for="email" class="col-sm-3" th:utext="#{label.speler.email}">first</label>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required">
-<!--            <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        <div class="form-group row">
+            <label for="email" class="col-sm-3" th:utext="#{label.user.email}">email</label>
+            <span class="col-sm-5"><input id="email" type="email" class="form-control" name="email" value="" required="required"/></span>
+            <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>
+
         </div>
-        <div class="form-group">
-            <label for="wachtwoord" class="col-sm-3" th:utext="#{label.speler.wachtwoord}">first</label>
-            <input type="password" class="form-control" name="password" id="wachtwoord" placeholder="Password" required="required">
-<!--            <span id="wachtwoordError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        <div class="form-group row">
+            <label for="password" class="col-sm-3" th:utext="#{label.user.wachtwoord}">password</label>
+            <span class="col-sm-5"><input id="password" class="form-control" name="wachtwoord" value="" type="password" required="required" autocomplete="new-password"/></span>
+            <span id="passwordError" class="alert alert-danger col-sm-4" style="display:none"></span>
         </div>
-        <div class="form-group">
-            <label for="herhaalWachtwoord" class="col-sm-3" th:utext="#{label.speler.herhaalWachtwoord}">first</label>
-            <input type="password" class="form-control" name="confirm_password" id="herhaalWachtwoord" placeholder="Confirm Password" required="required">
-<!--            <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>-->
+        <div class="form-group row">
+            <label for="matchingWachtwoord" class="col-sm-3" th:utext="#{label.user.herhaalWachtwoord}">confirm</label>
+            <span class="col-sm-5"><input id="matchingWachtwoord" class="form-control" name="matchingWachtwoord" value="" type="password" required="required" autocomplete="new-password"/></span>
+            <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
         </div>
-        <div class="form-group">
-            <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
-        </div>
-        <div class="form-group">
-            <button onclick="nieuwAccount()" class="btn btn-success btn-lg btn-block">Registreer</button>
-        </div>
+        <br/>
+        <button onclick="nieuwAccount()" class="btn btn-primary" th:utext="#{label.form.submit}">submit</button>
     </form>
 </div>
 </body>

@@ -1,43 +1,67 @@
 package com.project.lingo.Application;
 
-import com.project.lingo.Data.repository.SpelRepository;
+import com.project.lingo.Data.repository.GameRepository;
 import com.project.lingo.Domain.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-public class LingoService {
-    Lingo lingo = new Lingo();
-    LingoMet2Spelers lingoMet2Spelers = new LingoMet2Spelers();
+@Service
+public class LingoService implements ILingoService {
+    private GameRepository gameRepository;
+    private Lingo lingo = new Lingo();
+    private LingoMet2Spelers lingoMet2Spelers = new LingoMet2Spelers();
 
-    @Autowired
-    SpelRepository spelRepository;
+    public LingoService(GameRepository repository){
+        this.gameRepository = repository;
+    }
 
     //vanaf hier de database aanroepen
 
-    public String start(int lengthWord) {
-        lingo.setSpel(nieuwSpel());
+    @Override
+    public Lingo start(int lengthWord, User user) {
+        if (user != null){
+            lingo.setSpel(nieuwSpelMetGebruiker(user));
+        } else {
+            lingo.setSpel(nieuwSpel());
+        }
         lingo.setTeRadenWoord(lengthWord);
-        return lingo.start();
+        gameRepository.save(lingo.getSpel());
+        System.out.println(lingo.getSpel().toString());
+        return lingo;
     }
 
+    @Override
     public String spelerSpeelt(String woordVanSpeler) {
         lingo.setBeurt();
         lingo.setWoordVanSpeler(woordVanSpeler);
         return lingo.spelerSpeelt(60);
     }
 
-    public Spel nieuwSpel(){
+    @Override
+    public Game nieuwSpel(){
         Builder builder = new SpelBuilder();
         builder.setTotaalPunten(0);
         builder.setDatum(new Date());
         return builder.build();
     }
 
-    public Spel nieuwePoging(String woordVanSpeler, long gameId){
-        return new Spel();
+    @Override
+    public Game nieuwSpelMetGebruiker(User user){
+        Builder builder = new SpelBuilder();
+        builder.setTotaalPunten(0);
+        builder.setDatum(new Date());
+        builder.setSpeler(user);
+        gameRepository.save(builder.build());
+        return builder.build();
     }
 
+    @Override
+    public Game nieuwePoging(String woordVanSpeler, long gameId){
+        return new Game();
+    }
+
+    @Override
     public LingoMet2Spelers gameMet2Spelers(String naamSpeler1, String naamSpeler2, int tijdPerBeurt){
         lingoMet2Spelers = new LingoMet2Spelers(naamSpeler1, naamSpeler2, tijdPerBeurt);
         lingoMet2Spelers.setTeRadenWoord(5);
@@ -45,6 +69,7 @@ public class LingoService {
         return lingoMet2Spelers;
     }
 
+    @Override
     public String nieuwWoord(){
         return "";
     }

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 @Component
 public class FilterFileOnStartup {
-    //@PostConstruct
+    @PostConstruct
     public void filterFileOnStartup() {
         try {
             Scanner input = new Scanner(new File("src/main/resources/static/basiswoorden-gekeurd.txt"));

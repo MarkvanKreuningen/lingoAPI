@@ -1,6 +1,6 @@
 package com.project.lingo.Presentation.controller;
 
-import com.project.lingo.Domain.Speler;
+import com.project.lingo.Domain.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -10,8 +10,8 @@ public class AuthenticateController {
 
     @GetMapping("/speler/registratie")
     public String showRegistrationForm(WebRequest request, Model model) {
-        Speler speler = new Speler();
-        model.addAttribute("speler", speler);
+        User user = new User();
+        model.addAttribute("speler", user);
         return "register";
     }
 
