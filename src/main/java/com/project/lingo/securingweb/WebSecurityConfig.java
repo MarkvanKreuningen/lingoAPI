@@ -17,6 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new MyUserDetailsService();
+    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -52,21 +56,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable();
 
 
-//        http./*httpBasic().and()*/authorizeRequests()
-//                .antMatchers("/admin/**").hasAnyRole("ADMIN")
-//                .antMatchers("/", "/home", "/register", "/login").permitAll()
-//                //.antMatchers("/registration", "/game2players", "/game1player").permitAll()
-//                .antMatchers("/api/**", "/api/**/**").permitAll()
-//                .antMatchers("/resources/**","/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
-//        http.csrf().disable();
+        http./*httpBasic().and()*/authorizeRequests()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/", "/home", "/register", "/login").permitAll()
+                //.antMatchers("/registration", "/game2players", "/game1player").permitAll()
+                .antMatchers("/api/**", "/api/**/**").permitAll()
+                .antMatchers("/resources/**","/static/**", "/css/**", "/js/**", "/img/**", "/icon/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
+        http.csrf().disable();
     }
 
     

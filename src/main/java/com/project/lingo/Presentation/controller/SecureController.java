@@ -14,7 +14,6 @@ import java.util.List;
 public class SecureController {
     private IUserService userService;
 
-    @RolesAllowed("ADMIN")
     @GetMapping("/speler")
     public List<User> getAlleSpelers() {
         return userService.findAll();

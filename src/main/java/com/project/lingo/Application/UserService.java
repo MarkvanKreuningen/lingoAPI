@@ -6,8 +6,8 @@ import com.project.lingo.Domain.Game;
 import com.project.lingo.Domain.User;
 import com.project.lingo.Presentation.dto.SpelerDto;
 import com.project.lingo.Presentation.error.SpelerAlreadyExistException;
+import com.project.lingo.Presentation.error.SpelerNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,6 @@ public class UserService implements IUserService{
 
     private UserRepository userRepository;
     private GameRepository gameRepository;
-    private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, GameRepository gameRepository){
         this.userRepository = userRepository;
@@ -34,7 +33,7 @@ public class UserService implements IUserService{
 
         user.setUsername(accountDto.getGebruikersnaam());
         user.setRol(accountDto.getRole());
-        user.setPassword(passwordEncoder.encode(accountDto.getWachtwoord()));
+        user.setPassword(accountDto.getWachtwoord());
         user.setEmail(accountDto.getEmail());
         return userRepository.save(user);
     }
@@ -49,6 +48,18 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public User findByUsername(String username) {
+        System.out.println(username+" versie 2");
+        if (usernameExists(username))
+            return userRepository.findByUsername(username);
+        else throw new SpelerNotFoundException("er is geen account met deze gebruikersnaam");
+    }
+
+    private boolean usernameExists(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
+
+    @Override
     public List<Game> findGamesByUsername(String gebruikersnaam) {
         System.out.println("hello");
         return gameRepository.findGamesForPlayerByUsername(gebruikersnaam);
@@ -58,7 +69,6 @@ public class UserService implements IUserService{
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
     }
-
 
     @Override
     public String getUsernameOfPrincipal(Object principal) {
@@ -70,4 +80,19 @@ public class UserService implements IUserService{
         }
         return username;
     }
+
+    @Override
+    public User getUserOfPrincipal(Object principal) {
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        if (usernameExists(username))
+            return userRepository.findByUsername(username);
+        else throw new SpelerNotFoundException();
+
+    }
+
 }

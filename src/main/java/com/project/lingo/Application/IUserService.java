@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface IUserService {
     String getUsernameOfPrincipal(Object principal);
+    User getUserOfPrincipal(Object principal);
     User createNewAccount(SpelerDto accountDto);
     User findByEmail(String email);
+    User findByUsername(String username);
     List<Game> findGamesByUsername(String username);
     List<User> findAll();
 }

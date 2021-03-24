@@ -7,6 +7,7 @@ import com.project.lingo.Domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ public class GameController {
     @RequestMapping(value = "/start", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> start(){
         try {
-            //Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User user = userService.findByEmail("markvankreuningen@gmail.com");
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user = userService.getUserOfPrincipal(principal);
             Game game = gameService.nieuwSpel(user);
             return ResponseEntity.ok(game.getId());
         } catch (Exception e){

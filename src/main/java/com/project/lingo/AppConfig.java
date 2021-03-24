@@ -29,11 +29,10 @@ public class AppConfig {
     public GameService gameService(GameRepository gameRepository){
         return new GameService(gameRepository);
     }
-
-    /*@Bean
-    public UserDetailsService userDetailsService(UserRepository repository){
-        return new MyUserDetailsService(repository);
-    }*/
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new MyUserDetailsService();
+    }
 
 
     /*@Autowired

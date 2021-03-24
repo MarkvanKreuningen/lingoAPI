@@ -23,7 +23,7 @@ public class User {
     @NotNull
     private String username;
 
-    @Column
+    @Column(name = "wachtwoord")
     @NotNull
     private String password;
 
