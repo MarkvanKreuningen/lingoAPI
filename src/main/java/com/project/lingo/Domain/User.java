@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "speler")
+@Table(name = "useraccount")
 public class User {
 
     @Id
@@ -19,38 +19,22 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @Column(unique = true, name = "gebruikersnaam")
+    @Column(unique = true)
     @NotNull
     private String username;
 
-    @Column(name = "wachtwoord")
+    @Column
     @NotNull
     private String password;
 
     @NotNull
     private String rol;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "speler_fk", referencedColumnName = "id")
-    @JsonManagedReference
-    private Collection<Game> spellen;
-
-    /*private int active;
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }*/
-
-    public User(long id, String email, String username, String password, Collection<Game> spellen) {
+    public User(long id, String email, String username, String password) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.spellen = spellen;
     }
 
     public User(){
@@ -89,14 +73,6 @@ public class User {
         this.password = wachtwoord;
     }
 
-    public Collection<Game> getSpellen() {
-        return spellen;
-    }
-
-    public void setSpellen(Collection<Game> spellen) {
-        this.spellen = spellen;
-    }
-
     public String getRol() {
         return rol;
     }
@@ -113,7 +89,6 @@ public class User {
                 ", gebruikersnaam='" + username + '\'' +
                 ", wachtwoord='" + password + '\'' +
                 ", rol='" + rol + '\'' +
-                ", spellen=" + spellen +
                 '}';
     }
 }

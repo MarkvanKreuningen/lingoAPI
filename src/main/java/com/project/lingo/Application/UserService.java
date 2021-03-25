@@ -2,9 +2,8 @@ package com.project.lingo.Application;
 
 import com.project.lingo.Data.repository.GameRepository;
 import com.project.lingo.Data.repository.UserRepository;
-import com.project.lingo.Domain.Game;
 import com.project.lingo.Domain.User;
-import com.project.lingo.Presentation.dto.SpelerDto;
+import com.project.lingo.Presentation.dto.UserDto;
 import com.project.lingo.Presentation.error.SpelerAlreadyExistException;
 import com.project.lingo.Presentation.error.SpelerNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,16 +23,16 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User createNewAccount(SpelerDto accountDto){
+    public User createNewAccount(UserDto accountDto){
         if (emailExists(accountDto.getEmail())) {
             throw new SpelerAlreadyExistException("Er is al een account met dit emailadress");
         }
 
         final User user = new User();
 
-        user.setUsername(accountDto.getGebruikersnaam());
+        user.setUsername(accountDto.getUsername());
         user.setRol(accountDto.getRole());
-        user.setPassword(accountDto.getWachtwoord());
+        user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
         return userRepository.save(user);
     }
@@ -57,12 +56,6 @@ public class UserService implements IUserService{
 
     private boolean usernameExists(String username) {
         return userRepository.findByUsername(username) != null;
-    }
-
-    @Override
-    public List<Game> findGamesByUsername(String gebruikersnaam) {
-        System.out.println("hello");
-        return gameRepository.findGamesForPlayerByUsername(gebruikersnaam);
     }
 
     @Override
@@ -91,7 +84,7 @@ public class UserService implements IUserService{
         }
         if (usernameExists(username))
             return userRepository.findByUsername(username);
-        else throw new SpelerNotFoundException();
+        else throw new SpelerNotFoundException("player not found");
 
     }
 

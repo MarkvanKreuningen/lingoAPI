@@ -1,6 +1,7 @@
 package com.project.lingo;
 
 import com.project.lingo.Application.*;
+import com.project.lingo.Data.repository.AttemptRepository;
 import com.project.lingo.Data.repository.GameRepository;
 import com.project.lingo.Data.repository.UserRepository;
 import com.project.lingo.Domain.Game;
@@ -26,23 +27,16 @@ public class AppConfig {
         return new UserService(repository, gameRepository);
     }
     @Bean
-    public GameService gameService(GameRepository gameRepository){
-        return new GameService(gameRepository);
+    public GameService gameService(GameRepository gameRepository, IFilterFileService filterFileService, IAttemptService attemptService){
+        return new GameService(gameRepository, filterFileService, attemptService);
     }
     @Bean
     public UserDetailsService userDetailsService(){
         return new MyUserDetailsService();
     }
 
-
-    /*@Autowired
-    private EntityManagerFactory entityManagerFactory;
-
     @Bean
-    public SessionFactory getSessionFactory() {
-        if (entityManagerFactory.unwrap(SessionFactory.class) == null) {
-            throw new NullPointerException("factory is not a hibernate factory");
-        }
-        return entityManagerFactory.unwrap(SessionFactory.class);
-    }*/
+    public IAttemptService attemptService(AttemptRepository attemptRepository){
+        return new AttemptService(attemptRepository);
+    }
 }
