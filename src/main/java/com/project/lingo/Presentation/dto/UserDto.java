@@ -7,21 +7,21 @@ import com.sun.istack.NotNull;
 import jakarta.validation.constraints.Size;
 
 @WachtwoordMatches
-public class SpelerDto {
+public class UserDto {
     @NotNull
-    @Size(min = 1, message = "{Size.spelerDto.gebruikersnaam}")
-    public String gebruikersnaam;
+    @Size(min = 1, message = "{Size.userDto.username}")
+    public String username;
 
     @ValidWachtwoord
-    private String wachtwoord;
+    private String password;
 
     @NotNull
     @Size(min = 1)
-    private String matchingWachtwoord;
+    private String matchingPassword;
 
     @ValidEmail
     @NotNull
-    @Size(min = 1, message = "{Size.spelerDto.email}")
+    @Size(min = 1, message = "{Size.userDto.email}")
     private String email;
 
     private String role;
@@ -34,28 +34,28 @@ public class SpelerDto {
         this.role = role;
     }
 
-    public String getGebruikersnaam() {
-        return gebruikersnaam;
+    public String getUsername() {
+        return username;
     }
 
-    public void setGebruikersnaam(final String gebruikersnaam) {
-        this.gebruikersnaam = gebruikersnaam;
+    public void setUsername(final String username) {
+        this.username = username;
     }
 
-    public String getWachtwoord() {
-        return wachtwoord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setWachtwoord(final String wachtwoord) {
-        this.wachtwoord = wachtwoord;
+    public void setPassword(final String password) {
+        this.password = password;
     }
 
-    public String getMatchingWachtwoord() {
-        return matchingWachtwoord;
+    public String getMatchingPassword() {
+        return matchingPassword;
     }
 
-    public void setMatchingWachtwoord(final String matchingWachtwoord) {
-        this.matchingWachtwoord = matchingWachtwoord;
+    public void setMatchingPassword(final String matchingPassword) {
+        this.matchingPassword = matchingPassword;
     }
 
     public String getEmail() {
@@ -69,8 +69,8 @@ public class SpelerDto {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("SpelerDto [gebruikersnaam=")
-                .append(gebruikersnaam)
+        builder.append("UserDto [username=")
+                .append(username)
                 .append(", email=")
                 .append(email)
                 .append(", role=")

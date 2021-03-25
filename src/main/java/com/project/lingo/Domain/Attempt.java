@@ -1,19 +1,26 @@
 package com.project.lingo.Domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.project.lingo.Application.IAttemptService;
+import com.project.lingo.Application.IFilterFileService;
+import com.project.lingo.Presentation.dto.AttemptDto;
+import com.project.lingo.Presentation.dto.WordDto;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 @Entity
-@Table(name = "poging")
-public class Poging {
+@Table(name = "attempt")
+public class Attempt {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
     @Column
-    private int beurt;
+    private int turn;
     @Column(name = "woordvanspeler")
     private String woordVanSpeler;
     @Column
@@ -21,10 +28,27 @@ public class Poging {
     @Column(name = "teradenwoord")
     private String teRadenWoord;
 
-    public Poging(int beurt, String teRadenWoord, String woordVanSpeler) {
-        this.beurt = beurt;
+    private Timestamp created;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    //@JsonBackReference
+    @JoinColumn(name = "spel_fk", referencedColumnName = "id")
+    @NotNull
+    private Game game;
+
+    public Attempt(Game game, int size, IFilterFileService filterFileService, IAttemptService attemptService){
+        this.game = game;
+        this.setTeRadenWoord(size, filterFileService.getFilteredList());
+        this.teRadenWoord = this.getTeRadenWoord();
+        this.turn = attemptService.getTotalTurns(this.teRadenWoord, game.getId());
+        this.created = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Attempt(int turn, String teRadenWoord, String woordVanSpeler) {
+        this.turn = turn;
         this.woordVanSpeler = woordVanSpeler;
         this.teRadenWoord = teRadenWoord;
+        this.created = new Timestamp(System.currentTimeMillis());
         Feedback[] feedback = new Feedback[teRadenWoord.length()];
         Arrays.fill(feedback, Feedback.ABSENT);
         char[] teRaden = teRadenWoord.toCharArray();
@@ -46,17 +70,20 @@ public class Poging {
         this.feedback = Arrays.toString(feedback);
         System.out.println(this.feedback);
     }
+    public WordDto getWordDto(){
+        return new WordDto(this.game.getId(), this.getTeRadenWoord().charAt(0), this.getTeRadenWoord().length());
+    }
 
-    public Poging() {
+    public Attempt() {
 
     }
 
-    public int getBeurt() {
-        return beurt;
+    public int getTurn() {
+        return turn;
     }
 
-    public void setBeurt(int beurt) {
-        this.beurt = beurt;
+    public void setTurn(int beurt) {
+        this.turn = beurt;
     }
 
     public String getWoordVanSpeler() {
@@ -79,14 +106,29 @@ public class Poging {
         return teRadenWoord;
     }
 
-    public void setTeRadenWoord(String teRadenWoord) {
-        this.teRadenWoord = teRadenWoord;
+    public void setTeRadenWoord(int lengte, List<String> list) {
+        Random random = new Random();
+        this.teRadenWoord = "";
+        while (true) {
+            if (teRadenWoord.length() != lengte)
+                teRadenWoord = list.get(random.nextInt(list.size()));
+            else
+                break;
+        }
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     @Override
     public String toString() {
-        return "Poging{" +
-                "beurt=" + beurt +
+        return "Attempt{" +
+                "turn=" + turn +
                 ", woordVanSpeler='" + woordVanSpeler + '\'' +
                 ", feedback='" + feedback + '\'' +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
@@ -94,8 +136,8 @@ public class Poging {
     }
 
     public String toStringZonderTeRadenWoord(){
-        return "Poging{" +
-                "beurt=" + beurt +
+        return "Attempt{" +
+                "turn=" + turn +
                 ", woordVanSpeler='" + woordVanSpeler + '\'' +
                 ", feedback='" + feedback + '\'' +
                 '}';
