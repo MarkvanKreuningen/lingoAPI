@@ -5,7 +5,7 @@ import com.project.lingo.Data.repository.UserRepository;
 import com.project.lingo.Domain.User;
 import com.project.lingo.Presentation.dto.UserDto;
 import com.project.lingo.Presentation.error.SpelerAlreadyExistException;
-import com.project.lingo.Presentation.error.SpelerNotFoundException;
+import com.project.lingo.Presentation.error.UserNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class UserService implements IUserService{
         System.out.println(username+" versie 2");
         if (usernameExists(username))
             return userRepository.findByUsername(username);
-        else throw new SpelerNotFoundException("er is geen account met deze gebruikersnaam");
+        else throw new UserNotFoundException("er is geen account met deze gebruikersnaam");
     }
 
     private boolean usernameExists(String username) {
@@ -84,7 +84,7 @@ public class UserService implements IUserService{
         }
         if (usernameExists(username))
             return userRepository.findByUsername(username);
-        else throw new SpelerNotFoundException("player not found");
+        else throw new UserNotFoundException("player not found");
 
     }
 

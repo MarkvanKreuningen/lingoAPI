@@ -4,6 +4,7 @@ import com.project.lingo.Application.IAttemptService;
 import com.project.lingo.Application.IFilterFileService;
 import com.project.lingo.Presentation.dto.AttemptDto;
 import com.project.lingo.Presentation.dto.WordDto;
+import com.project.lingo.Presentation.error.WordNotValid;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Attempt {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
-    @Column
+    @Column(name = "beurt")
     private int turn;
     @Column(name = "woordvanspeler")
     private String woordVanSpeler;
@@ -44,7 +45,8 @@ public class Attempt {
         this.created = new Timestamp(System.currentTimeMillis());
     }
 
-    public Attempt(int turn, String teRadenWoord, String woordVanSpeler) {
+    public Attempt(int turn, String teRadenWoord, String woordVanSpeler, Game game) {
+        this.game = game;
         this.turn = turn;
         this.woordVanSpeler = woordVanSpeler;
         this.teRadenWoord = teRadenWoord;
@@ -72,6 +74,10 @@ public class Attempt {
     }
     public WordDto getWordDto(){
         return new WordDto(this.game.getId(), this.getTeRadenWoord().charAt(0), this.getTeRadenWoord().length());
+    }
+
+    public AttemptDto getAttemptDto(){
+        return new AttemptDto(this.turn, this.game.getId(), this.feedback, this.created);
     }
 
     public Attempt() {
@@ -117,6 +123,15 @@ public class Attempt {
         }
     }
 
+    public Attempt rateAttempt(Attempt attempt, String word, Game game) throws WordNotValid {
+        if (!word.equals("")){
+            if (word.length() != attempt.getTeRadenWoord().length())
+            throw new WordNotValid("Word empty/not the same length");
+        }
+        System.out.println("Attempt: rateAttempt: 131 "+new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game).toString());
+        return new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game);
+    }
+
     public Timestamp getCreated() {
         return created;
     }
@@ -128,10 +143,13 @@ public class Attempt {
     @Override
     public String toString() {
         return "Attempt{" +
-                "turn=" + turn +
+                "id=" + id +
+                ", turn=" + turn +
                 ", woordVanSpeler='" + woordVanSpeler + '\'' +
                 ", feedback='" + feedback + '\'' +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
+                ", created=" + created +
+                ", game=" + game +
                 '}';
     }
 

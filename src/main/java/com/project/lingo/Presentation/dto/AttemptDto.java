@@ -5,16 +5,15 @@ import com.project.lingo.Domain.Feedback;
 import java.sql.Timestamp;
 
 public class AttemptDto {
+    private int turn;
     private long gameId;
-    private char firstLetter;
-    private int lengthWord;
-    private Timestamp created;
+    private String feedback;
+    private Timestamp timestamp;
 
-    public AttemptDto(long gameId, char firstLetter, int lengthWord) {
+    public AttemptDto(int turn, long gameId, String feedback, Timestamp timestamp) {
+        this.turn = turn;
         this.gameId = gameId;
-        this.firstLetter = firstLetter;
-        this.lengthWord = lengthWord;
-        this.created = new Timestamp(System.currentTimeMillis());
+        this.feedback = feedback;
+        this.timestamp = timestamp;
     }
-
 }

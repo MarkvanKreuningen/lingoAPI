@@ -7,8 +7,7 @@ import com.project.lingo.Application.ILingoService;
 import com.project.lingo.Application.IGameService;
 import com.project.lingo.Application.IUserService;
 import com.project.lingo.Domain.*;
-import com.project.lingo.Presentation.dto.WordDto;
-import com.project.lingo.Presentation.error.SpelerNotFoundException;
+import com.project.lingo.Presentation.error.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -38,7 +36,7 @@ public class GameController {
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User user = userService.getUserOfPrincipal(principal);
-            Game newGame = gameService.nieuwSpel(user);
+            Game newGame = gameService.newGame(user);
             Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
             String json = gson.toJson(gameService.start(newGame.getId()));
             return ResponseEntity.ok(json);
@@ -49,18 +47,19 @@ public class GameController {
     }
 
     @RequestMapping(value = "/play", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> play(@RequestParam("gameId") long gameId,
-                                       @RequestParam("attempt") String attemptWord) {
+    public String play(@RequestParam("gameId") long gameId,
+                       @RequestParam("attempt") String attemptWord) {
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User user = userService.getUserOfPrincipal(principal);
-            if (user == null)
-                throw new SpelerNotFoundException("player not found");
-
-        } catch (SpelerNotFoundException e){
+            Game game = gameService.validateGameUser(user, gameId);
+            Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
+            return gson.toJson(gameService.attemptWord(game, attemptWord));
+        } catch (UserNotFoundException | GameNotFoundException | NewGameException | StartedException | GameOverException | TooLateException | WordNotValid e){
             e.printStackTrace();
         }
-        return ResponseEntity.ok(lingoService.spelerSpeelt(attemptWord));
+
+        return attemptWord;
     }
 
     @GetMapping("/game")
@@ -83,9 +82,8 @@ public class GameController {
     }
 
     @GetMapping("/game/{id}")
-    public ResponseEntity<String> getSpelById(@PathVariable("id") long id) {
-        Optional<String> spelData = Optional.ofNullable(gameService.findById(id).toString());
-        return spelData.map(spel -> new ResponseEntity<>(spel, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public Game getSpelById(@PathVariable("id") long id) throws GameNotFoundException {
+        return gameService.findById(id);
     }
 
     @RequestMapping(value = "/start2spelers", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,16 +1,18 @@
 package com.project.lingo.Domain;
 
+import com.project.lingo.Application.GameService;
 import com.project.lingo.Application.IAttemptService;
 import com.project.lingo.Application.IFilterFileService;
 import com.project.lingo.Application.IGameService;
+import com.project.lingo.Presentation.dto.AttemptDto;
 import com.project.lingo.Presentation.dto.WordDto;
-import com.project.lingo.Presentation.error.GameOverException;
-import com.project.lingo.Presentation.error.NewGameException;
-import com.project.lingo.Presentation.error.StartedException;
+import com.project.lingo.Presentation.error.*;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -103,16 +105,37 @@ public class Game {
         this.attempts = pogingen;
     }
 
-    public boolean attempt() throws GameOverException, NewGameException {
+    public Object userPlays(Attempt attempt, IGameService gameService, String word, IAttemptService attemptService, IFilterFileService filterFileService) throws GameOverException, TooLateException, WordNotValid, StartedException {
+        if (this.getStatus() == Status.GAMEOVER)
+            throw new GameOverException("Game is already over");
+        else if (durationTooLong(attempt.getCreated().getTime())){
+            this.setStatus(Status.GAMEOVER);
+            throw new TooLateException("Your answer is too late!");
+        }
+        AttemptDto attemptDto = attemptService.getFeedback(attempt, word, this);
+        if (attempt.getTeRadenWoord().equals(word)){
+            WordDto wordDto = this.nextRound(filterFileService, attemptService, this.getNextWordtLength(attempt));
+            gameService.post(this);
+            return wordDto;
+        }
+        return attemptDto;
+    }
+
+    public int getNextWordtLength(Attempt attempt){
+        if (attempt.getTeRadenWoord().length() == 7)
+            return 5;
+        else return attempt.getTeRadenWoord().length() + 1;
+    }
+
+    public WordDto nextRound(IFilterFileService filterFileService, IAttemptService attemptService, int lengthWord) throws GameOverException {
         if (this.getStatus() == Status.GAMEOVER){
             throw new GameOverException("Game is already over");
-        } else if (this.getStatus() == Status.NEW){
-            throw new NewGameException("Game not started yet!");
         }
-        //else if (durationTooLong())
-        return false;
-
+        this.totalPoints += 25;
+        Attempt attempt = new Attempt(this, lengthWord, filterFileService, attemptService);
+        return attempt.getWordDto();
     }
+
 
     public WordDto start(IFilterFileService filterFileService, IAttemptService attemptService, IGameService gameService) throws GameOverException, StartedException {
         WordDto word = this.nextAttempt(filterFileService, attemptService, 5);
@@ -127,34 +150,14 @@ public class Game {
             throw new StartedException("Game already started");
         }
         this.setStatus(Status.START);
-        Attempt attempt = new Attempt(this, lengthWord, filterFileService, attemptService);
+        Attempt attempt = attemptService.newAttempt(this, lengthWord, filterFileService, attemptService);
         return attempt.getWordDto();
     }
 
 
-    public boolean durationTooLong(int startTime){
-        long endTime = System.nanoTime();
+    public boolean durationTooLong(long startTime){
+        long endTime = new Timestamp(System.currentTimeMillis()).getTime();
         long durationInMilliSeconds = (endTime - startTime) / 1000000;
         return durationInMilliSeconds >= (60 * 1000L);
-    }
-
-    @Override
-    public String toString() {
-        return "Game{" +
-                "id=" + id +
-                ", totalPoints=" + totalPoints +
-                ", date=" + date +
-                ", username=" + user.getUsername() +
-                ", attempts=" + attempts +
-                '}';
-    }
-
-    public String toStringWithoutUser() {
-        return "Game{" +
-                "id=" + id +
-                ", totalPoints=" + totalPoints +
-                ", date=" + date +
-                ", attempts=" + attempts +
-                '}';
     }
 }
