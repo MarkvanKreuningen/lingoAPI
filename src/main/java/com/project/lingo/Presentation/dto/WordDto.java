@@ -14,6 +14,8 @@ public class WordDto {
     private char firstLetter;
     private int lengthWord;
     private Timestamp created;
+    //TODO!!
+    //private int round;
 
     public WordDto(long gameId, char firstLetter, int lengthWord) {
         this.gameId = gameId;

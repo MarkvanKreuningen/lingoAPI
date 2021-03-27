@@ -1,6 +1,7 @@
 package com.project.lingo.Application;
 
 import com.project.lingo.Data.repository.GameRepository;
+import com.project.lingo.Domain.Attempt;
 import com.project.lingo.Domain.Game;
 import com.project.lingo.Domain.User;
 import com.project.lingo.Presentation.dto.AttemptDto;
@@ -51,16 +52,18 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public List<Game> findByUsername(String username) {
+    public List<Game> findByUsername(String username) throws UserHasNoGamesException {
         List<Game> games = repository.findGamesForPlayerByUsername(username);
         if (games == null)
-            throw new UserNotFoundException("Deze speler heeft geen games");
+            throw new UserHasNoGamesException("Deze speler heeft geen games");
         return games;
     }
 
     @Override
-    public Object attemptWord(Game game, String word) throws GameOverException, NewGameException, GameNotFoundException, TooLateException, WordNotValid, StartedException {
-        return game.userPlays(attemptService.getLastAttemptByGame(game), this, word, attemptService, filterFileService);
+    public Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid {
+        Attempt lastAttempt = attemptService.getLastAttemptByGame(game);
+        game.legalAttempt(lastAttempt, this);
+        return game.userPlays(lastAttempt, this, word, attemptService, filterFileService);
     }
 
     @Override

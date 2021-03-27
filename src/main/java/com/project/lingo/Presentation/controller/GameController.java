@@ -32,7 +32,7 @@ public class GameController {
 
     //Spring security toepassen om de objecten uit de securityContextHolder mee te nemen.
     @RequestMapping(value = "/start", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity start(){
+    public ResponseEntity start() {
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User user = userService.getUserOfPrincipal(principal);
@@ -40,8 +40,7 @@ public class GameController {
             Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
             String json = gson.toJson(gameService.start(newGame.getId()));
             return ResponseEntity.ok(json);
-        } catch (Exception e){
-            System.out.println(e.toString());
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -55,15 +54,13 @@ public class GameController {
             Game game = gameService.validateGameUser(user, gameId);
             Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
             return gson.toJson(gameService.attemptWord(game, attemptWord));
-        } catch (UserNotFoundException | GameNotFoundException | NewGameException | StartedException | GameOverException | TooLateException | WordNotValid e){
-            e.printStackTrace();
+        } catch (UserNotFoundException | GameNotFoundException | GameOverException | TooLateException | WordNotValid e) {
+            return e.getMessage();
         }
-
-        return attemptWord;
     }
 
     @GetMapping("/game")
-    public ResponseEntity<List<Game>> getAlleSpellen(@RequestParam(required = false) String username) {
+    public String getAlleSpellen(@RequestParam(required = false) String username) {
         try {
             List<Game> spellen = new ArrayList<>();
 
@@ -71,25 +68,26 @@ public class GameController {
                 spellen.addAll(gameService.findAll());
             else
                 spellen.addAll(gameService.findByUsername(username));
-
-            if (spellen.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(spellen, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
+            return gson.toJson(spellen);
+        } catch (UserNotFoundException | UserHasNoGamesException e) {
+            return e.getMessage();
         }
     }
 
     @GetMapping("/game/{id}")
-    public Game getSpelById(@PathVariable("id") long id) throws GameNotFoundException {
-        return gameService.findById(id);
+    public ResponseEntity<Object> getSpelById(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(gameService.findById(id), HttpStatus.OK);
+        } catch (GameNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value = "/start2spelers", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/start2spelers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody LingoMet2Spelers getStartSpel(@RequestParam String naamSpeler1,
-                                                         @RequestParam String naamSpeler2,
-                                                         @RequestParam int tijdPerBeurt){
+                                  @RequestParam String naamSpeler2,
+                                  @RequestParam int tijdPerBeurt) {
         return lingoService.gameMet2Spelers(naamSpeler1, naamSpeler2, tijdPerBeurt);
     }
 }

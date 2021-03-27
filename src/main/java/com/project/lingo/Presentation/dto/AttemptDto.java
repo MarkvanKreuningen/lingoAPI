@@ -16,12 +16,14 @@ public class AttemptDto {
     private long gameId;
     private String feedback;
     private Timestamp timestamp;
+    private int round;
 
-    public AttemptDto(int turn, long gameId, String feedback, Timestamp timestamp) {
+    public AttemptDto(int turn, long gameId, String feedback, Timestamp timestamp, int round) {
         this.turn = turn;
         this.gameId = gameId;
         this.feedback = feedback;
         this.timestamp = timestamp;
+        this.round = round;
     }
 
     public int getTurn() {
@@ -54,5 +56,13 @@ public class AttemptDto {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 }
