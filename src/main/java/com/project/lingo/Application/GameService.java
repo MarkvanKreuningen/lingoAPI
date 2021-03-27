@@ -3,6 +3,7 @@ package com.project.lingo.Application;
 import com.project.lingo.Data.repository.GameRepository;
 import com.project.lingo.Domain.Game;
 import com.project.lingo.Domain.User;
+import com.project.lingo.Presentation.dto.AttemptDto;
 import com.project.lingo.Presentation.dto.WordDto;
 import com.project.lingo.Presentation.error.*;
 
@@ -26,10 +27,10 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Game findById(long id) {
+    public Game findById(long id) throws GameNotFoundException {
         Optional<Game> object = repository.findById(id);
         if (!object.isPresent())
-            throw new SpelNotFoundException("Spel niet gevonden");
+            throw new GameNotFoundException("Game niet gevonden");
         return object.get();
     }
     @Override
@@ -44,7 +45,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Game nieuwSpel(User user) {
+    public Game newGame(User user) {
         Game game = new Game(user);
         return post(game);
     }
@@ -53,15 +54,22 @@ public class GameService implements IGameService {
     public List<Game> findByUsername(String username) {
         List<Game> games = repository.findGamesForPlayerByUsername(username);
         if (games == null)
-            throw new SpelerNotFoundException("Deze speler heeft geen games");
+            throw new UserNotFoundException("Deze speler heeft geen games");
         return games;
     }
 
     @Override
-    public boolean attemptWord(long gameId, String word) throws GameOverException, NewGameException {
-        Optional<Game> game = repository.findById(gameId);
-        if (game.isPresent())
-            return game.get().attempt();
-        throw new SpelNotFoundException("Deze speler heeft geen games");
+    public Object attemptWord(Game game, String word) throws GameOverException, NewGameException, GameNotFoundException, TooLateException, WordNotValid, StartedException {
+        return game.userPlays(attemptService.getLastAttemptByGame(game), this, word, attemptService, filterFileService);
+    }
+
+    @Override
+    public Game validateGameUser(User user, long gameId) throws GameNotFoundException {
+        if (findById(gameId) != null){
+            Optional<Game> game = repository.validateGameIdWithUsername(gameId, user.getId());
+            if (game.isPresent()){
+                return game.get();
+            } else throw new UserNotFoundException("User not found with this game");
+        } else throw new GameNotFoundException("Game niet gevonden");
     }
 }
