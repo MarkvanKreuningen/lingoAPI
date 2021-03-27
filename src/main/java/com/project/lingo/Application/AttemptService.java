@@ -7,6 +7,8 @@ import com.project.lingo.Presentation.dto.AttemptDto;
 import com.project.lingo.Presentation.error.WordNotValid;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+
 @Service
 public class AttemptService implements IAttemptService {
     private AttemptRepository repository;
@@ -38,8 +40,14 @@ public class AttemptService implements IAttemptService {
     }
 
     @Override
-    public Attempt newAttempt(Game game, int lengthWord, IFilterFileService filterFileService, IAttemptService attemptService) {
-        Attempt attempt = new Attempt(game, lengthWord, filterFileService, attemptService);
+    public Attempt newAttempt(Game game, int lengthWord, IFilterFileService filterFileService, int round) {
+        Attempt attempt = new Attempt();
+        attempt.setTeRadenWoord(lengthWord, filterFileService.getFilteredList());
+        String wordToGuess = attempt.getTeRadenWoord();
+        attempt.setTurn(getTotalTurns(wordToGuess, game.getId()));
+        attempt.setGame(game);
+        attempt.setRound(round);
+        attempt.setCreated(new Timestamp(System.currentTimeMillis()));
         post(attempt);
         return attempt;
     }

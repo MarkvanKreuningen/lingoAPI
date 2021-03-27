@@ -13,5 +13,5 @@ public interface IAttemptService {
     Attempt post(Attempt attempt);
     Attempt getLastAttemptByGame(Game Game);
     AttemptDto getFeedback(Attempt attempt, String word, Game game) throws WordNotValid;
-    Attempt newAttempt(Game game, int lengthWord, IFilterFileService filterFileService, IAttemptService attemptService);
+    Attempt newAttempt(Game game, int lengthWord, IFilterFileService filterFileService, int round);
 }

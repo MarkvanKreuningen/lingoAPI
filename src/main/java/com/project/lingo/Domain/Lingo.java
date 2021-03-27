@@ -65,7 +65,7 @@ public class Lingo {
             if (woordVanSpeler.length() != teRadenWoord.length())
                 return String.format("%s (ongeldig)", woordVanSpeler);
             else
-                return new Attempt(this.beurt, this.teRadenWoord, this.woordVanSpeler, this.game).toStringZonderTeRadenWoord();
+                return new Attempt(this.beurt, this.teRadenWoord, this.woordVanSpeler, this.game, 1).toStringZonderTeRadenWoord();
         } else {
             return "Niks ingevuld";
         }

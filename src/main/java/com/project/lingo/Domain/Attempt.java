@@ -23,6 +23,7 @@ public class Attempt {
     private long id;
     @Column(name = "beurt")
     private int turn;
+    private int round;
     @Column(name = "woordvanspeler")
     private String woordVanSpeler;
     @Column
@@ -38,47 +39,22 @@ public class Attempt {
     @NotNull
     private Game game;
 
-    public Attempt(Game game, int size, IFilterFileService filterFileService, IAttemptService attemptService){
-        this.game = game;
-        this.setTeRadenWoord(size, filterFileService.getFilteredList());
-        this.teRadenWoord = this.getTeRadenWoord();
-        this.turn = attemptService.getTotalTurns(this.teRadenWoord, game.getId());
-        this.created = new Timestamp(System.currentTimeMillis());
-    }
-
-    public Attempt(int turn, String teRadenWoord, String woordVanSpeler, Game game) {
+    public Attempt(int turn, String teRadenWoord, String woordVanSpeler, Game game, int round) {
         this.game = game;
         this.turn = turn;
         this.woordVanSpeler = woordVanSpeler;
         this.teRadenWoord = teRadenWoord;
         this.created = new Timestamp(System.currentTimeMillis());
-        Feedback[] feedback = new Feedback[teRadenWoord.length()];
-        Arrays.fill(feedback, Feedback.ABSENT);
-        char[] teRaden = teRadenWoord.toCharArray();
-        char[] geradenWoord = woordVanSpeler.toCharArray();
-        for (int i = 0; i < teRadenWoord.length(); i++) {
-            if (geradenWoord[i] == teRaden[i]) {
-                feedback[i] = Feedback.CORRECT;
-                teRaden[i] = '!';
-            }
-        }
-        for (int i = 0; i < teRadenWoord.length(); i++) {
-            for (int x = 0; x < teRadenWoord.length(); x++) {
-                if (geradenWoord[i] == teRaden[x] && feedback[i] == Feedback.ABSENT) {
-                    feedback[i] = Feedback.PRESENT;
-                    teRaden[x] = '!';
-                }
-            }
-        }
-        this.feedback = Arrays.toString(feedback);
-        System.out.println(this.feedback);
+        this.feedback = createFeedback();
+        this.round = round;
     }
+
     public WordDto getWordDto(){
         return new WordDto(this.game.getId(), this.getTeRadenWoord().charAt(0), this.getTeRadenWoord().length());
     }
 
     public AttemptDto getAttemptDto(){
-        return new AttemptDto(this.turn, this.game.getId(), this.feedback, this.created);
+        return new AttemptDto(this.turn, this.game.getId(), this.feedback, this.created, this.round);
     }
 
     public Attempt() {
@@ -87,6 +63,22 @@ public class Attempt {
 
     public int getTurn() {
         return turn;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     public void setTurn(int beurt) {
@@ -124,13 +116,34 @@ public class Attempt {
         }
     }
 
+    public String createFeedback(){
+        Feedback[] feedback = new Feedback[teRadenWoord.length()];
+        Arrays.fill(feedback, Feedback.ABSENT);
+        char[] teRaden = teRadenWoord.toCharArray();
+        char[] geradenWoord = woordVanSpeler.toCharArray();
+        for (int i = 0; i < teRadenWoord.length(); i++) {
+            if (geradenWoord[i] == teRaden[i]) {
+                feedback[i] = Feedback.CORRECT;
+                teRaden[i] = '!';
+            }
+        }
+        for (int i = 0; i < teRadenWoord.length(); i++) {
+            for (int x = 0; x < teRadenWoord.length(); x++) {
+                if (geradenWoord[i] == teRaden[x] && feedback[i] == Feedback.ABSENT) {
+                    feedback[i] = Feedback.PRESENT;
+                    teRaden[x] = '!';
+                }
+            }
+        }
+        return Arrays.toString(feedback);
+    }
+
     public Attempt rateAttempt(Attempt attempt, String word, Game game) throws WordNotValid {
         if (!word.equals("")){
             if (word.length() != attempt.getTeRadenWoord().length())
             throw new WordNotValid("Word empty/not the same length");
         }
-        System.out.println("Attempt: rateAttempt: 131 "+new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game).toString());
-        return new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game);
+        return new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game, attempt.getRound());
     }
 
     public Timestamp getCreated() {
@@ -146,11 +159,11 @@ public class Attempt {
         return "Attempt{" +
                 "id=" + id +
                 ", turn=" + turn +
+                ", round=" + round +
                 ", woordVanSpeler='" + woordVanSpeler + '\'' +
                 ", feedback='" + feedback + '\'' +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
                 ", created=" + created +
-                ", game=" + game +
                 '}';
     }
 

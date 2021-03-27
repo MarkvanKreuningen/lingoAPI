@@ -13,8 +13,8 @@ public interface IGameService {
     Game findById(long id) throws GameNotFoundException;
     WordDto start(long id) throws StartedException, GameOverException;
     Game newGame(User user);
-    List<Game> findByUsername(String username);
+    List<Game> findByUsername(String username) throws UserHasNoGamesException;
     Game post(Game game);
-    Object attemptWord(Game game, String word) throws GameOverException, StartedException, NewGameException, GameNotFoundException, TooLateException, WordNotValid;
+    Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid;
     Game validateGameUser(User user, long gameId) throws GameNotFoundException;
 }
