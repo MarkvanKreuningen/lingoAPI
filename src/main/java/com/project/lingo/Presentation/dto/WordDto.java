@@ -2,6 +2,13 @@ package com.project.lingo.Presentation.dto;
 
 import java.sql.Timestamp;
 
+//Last update 27-03-2021
+//Added getters and setters for exception :
+//com.fasterxml.jackson.databind.JsonMappingException:
+//No serializer found for class dtos.MyDtoNoAccessors
+//and no properties discovered to create BeanSerializer
+//(to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) )
+//solution from:https://www.baeldung.com/jackson-jsonmappingexception
 public class WordDto {
     private long gameId;
     private char firstLetter;
@@ -13,5 +20,37 @@ public class WordDto {
         this.firstLetter = firstLetter;
         this.lengthWord = lengthWord;
         this.created = new Timestamp(System.currentTimeMillis());
+    }
+
+    public long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
+    }
+
+    public char getFirstLetter() {
+        return firstLetter;
+    }
+
+    public void setFirstLetter(char firstLetter) {
+        this.firstLetter = firstLetter;
+    }
+
+    public int getLengthWord() {
+        return lengthWord;
+    }
+
+    public void setLengthWord(int lengthWord) {
+        this.lengthWord = lengthWord;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 }

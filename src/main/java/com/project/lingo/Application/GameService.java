@@ -29,7 +29,6 @@ public class GameService implements IGameService {
     @Override
     public Game findById(long id) throws GameNotFoundException {
         Optional<Game> object = repository.findById(id);
-        System.out.println(object.toString());
         if (!object.isPresent())
             throw new GameNotFoundException("Game niet gevonden");
         return object.get();

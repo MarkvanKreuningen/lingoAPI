@@ -1,5 +1,6 @@
 package com.project.lingo.Domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.lingo.Application.IAttemptService;
 import com.project.lingo.Application.IFilterFileService;
 import com.project.lingo.Presentation.dto.AttemptDto;
@@ -32,7 +33,7 @@ public class Attempt {
     private Timestamp created;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    //@JsonBackReference
+    @JsonBackReference
     @JoinColumn(name = "spel_fk", referencedColumnName = "id")
     @NotNull
     private Game game;
