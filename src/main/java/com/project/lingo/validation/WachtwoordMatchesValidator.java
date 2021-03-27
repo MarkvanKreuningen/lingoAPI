@@ -1,6 +1,6 @@
 package com.project.lingo.validation;
 
-import com.project.lingo.Presentation.dto.SpelerDto;
+import com.project.lingo.Presentation.dto.UserDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -12,7 +12,7 @@ public class WachtwoordMatchesValidator implements ConstraintValidator<Wachtwoor
 
     @Override
     public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-        final SpelerDto user = (SpelerDto) obj;
-        return user.getWachtwoord().equals(user.getMatchingWachtwoord());
+        final UserDto user = (UserDto) obj;
+        return user.getPassword().equals(user.getMatchingPassword());
     }
 }

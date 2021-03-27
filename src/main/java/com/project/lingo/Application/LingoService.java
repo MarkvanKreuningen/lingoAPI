@@ -40,7 +40,7 @@ public class LingoService implements ILingoService {
 
     @Override
     public Game nieuwSpel(){
-        Builder builder = new SpelBuilder();
+        Builder builder = new GameBuilder();
         builder.setTotaalPunten(0);
         builder.setDatum(new Date());
         return builder.build();
@@ -48,17 +48,17 @@ public class LingoService implements ILingoService {
 
     @Override
     public Game nieuwSpelMetGebruiker(User user){
-        Builder builder = new SpelBuilder();
+        Builder builder = new GameBuilder();
         builder.setTotaalPunten(0);
         builder.setDatum(new Date());
-        builder.setSpeler(user);
+        builder.setUser(user);
         gameRepository.save(builder.build());
         return builder.build();
     }
 
     @Override
     public Game nieuwePoging(String woordVanSpeler, long gameId){
-        return new Game();
+        return (Game) gameRepository.findGamesForPlayerByUsername("Mark");
     }
 
     @Override

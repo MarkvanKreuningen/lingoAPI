@@ -11,8 +11,8 @@ public class SpelMet2Spelers {
     private int totaalPuntenSpeler2;
     private Date date;
     private Beurt beurt;
-    List<Poging> pogingenSpeler1;
-    List<Poging> pogingenSpeler2;
+    List<Attempt> pogingenSpeler1;
+    List<Attempt> pogingenSpeler2;
 
     public SpelMet2Spelers(String naamSpeler1, String naamSpeler2){
         this.id = 1;
@@ -71,19 +71,19 @@ public class SpelMet2Spelers {
         this.date = date;
     }
 
-    public List<Poging> getPogingenSpeler1() {
+    public List<Attempt> getPogingenSpeler1() {
         return pogingenSpeler1;
     }
 
-    public void setPogingenSpeler1(List<Poging> pogingenSpeler1) {
+    public void setPogingenSpeler1(List<Attempt> pogingenSpeler1) {
         this.pogingenSpeler1 = pogingenSpeler1;
     }
 
-    public List<Poging> getPogingenSpeler2() {
+    public List<Attempt> getPogingenSpeler2() {
         return pogingenSpeler2;
     }
 
-    public void setPogingenSpeler2(List<Poging> pogingenSpeler2) {
+    public void setPogingenSpeler2(List<Attempt> pogingenSpeler2) {
         this.pogingenSpeler2 = pogingenSpeler2;
     }
 

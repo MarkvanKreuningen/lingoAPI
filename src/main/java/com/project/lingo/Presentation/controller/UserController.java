@@ -1,6 +1,6 @@
 package com.project.lingo.Presentation.controller;
 
-import com.project.lingo.Presentation.dto.SpelerDto;
+import com.project.lingo.Presentation.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,8 +14,8 @@ public class UserController {
 
     @GetMapping("/user/registration")
     public String showRegistrationForm(WebRequest request, Model model) {
-        SpelerDto spelerDto = new SpelerDto();
-        model.addAttribute("speler", spelerDto);
+        UserDto userDto = new UserDto();
+        model.addAttribute("speler", userDto);
         return "registration";
     }
 

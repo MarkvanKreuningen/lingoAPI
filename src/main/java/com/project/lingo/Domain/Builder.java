@@ -5,7 +5,7 @@ import java.util.Date;
 public interface Builder {
     void setTotaalPunten(int punten);
     void setDatum(Date datum);
-    void setSpeler(User user);
-    void addToList(Poging poging);
+    void setUser(User user);
+    void addToList(Attempt attempt);
     Game build();
 }

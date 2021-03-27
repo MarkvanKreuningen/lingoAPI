@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SpelBuilder implements Builder {
+public class GameBuilder implements Builder {
     private int totaalPunten;
     private Date datum;
     private User user;
-    private List<Poging> pogingList = new ArrayList<>();
+    private List<Attempt> attemptList = new ArrayList<>();
 
     @Override
     public void setTotaalPunten(int punten) {
@@ -21,13 +21,13 @@ public class SpelBuilder implements Builder {
     }
 
     @Override
-    public void setSpeler(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
     @Override
-    public void addToList(Poging poging) {
-        this.pogingList.add(poging);
+    public void addToList(Attempt attempt) {
+        this.attemptList.add(attempt);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class SpelBuilder implements Builder {
         Game game = new Game();
         game.setTotalPoints(totaalPunten);
         game.setDate(datum);
-        //game.setSpeler(user);
-        game.setAttempts(pogingList);
+        game.setUser(user);
+        game.setAttempts(attemptList);
         return game;
     }
 }

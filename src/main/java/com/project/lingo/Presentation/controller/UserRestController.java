@@ -2,7 +2,7 @@ package com.project.lingo.Presentation.controller;
 
 import com.project.lingo.Application.IUserService;
 import com.project.lingo.Domain.User;
-import com.project.lingo.Presentation.dto.SpelerDto;
+import com.project.lingo.Presentation.dto.UserDto;
 import com.project.lingo.Presentation.error.SpelerAlreadyExistException;
 import com.project.lingo.Presentation.util.GenericResponse;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
-    public GenericResponse registerNewAccount(@Valid final SpelerDto accountDto, final HttpServletRequest request) {
+    public GenericResponse registerNewAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
         LOGGER.debug("Registering user account with information: {}", accountDto);
 
         try {
