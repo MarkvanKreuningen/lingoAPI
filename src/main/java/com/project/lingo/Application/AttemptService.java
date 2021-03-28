@@ -4,10 +4,12 @@ import com.project.lingo.Data.repository.AttemptRepository;
 import com.project.lingo.Domain.Attempt;
 import com.project.lingo.Domain.Game;
 import com.project.lingo.Presentation.dto.AttemptDto;
+import com.project.lingo.Presentation.error.NoAttemptsFoundException;
 import com.project.lingo.Presentation.error.WordNotValid;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class AttemptService implements IAttemptService {
@@ -28,8 +30,12 @@ public class AttemptService implements IAttemptService {
     }
 
     @Override
-    public Attempt getLastAttemptByGame(Game game) {
-        return repository.getLastAttemptByGame(game.getId()).get(0);
+    public Attempt getLastAttemptByGame(Game game) throws NoAttemptsFoundException {
+        List<Attempt> attempt = repository.getLastAttemptByGame(game.getId());
+        if (attempt.isEmpty()){
+            throw new NoAttemptsFoundException("No attempt found for this game");
+        }
+        return attempt.get(0);
     }
 
     @Override

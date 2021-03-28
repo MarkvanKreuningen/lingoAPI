@@ -50,7 +50,7 @@ public class Attempt {
     }
 
     public WordDto getWordDto(){
-        return new WordDto(this.game.getId(), this.getTeRadenWoord().charAt(0), this.getTeRadenWoord().length());
+        return new WordDto(this.game.getId(), this.getTeRadenWoord().charAt(0), this.getTeRadenWoord().length(), this.round);
     }
 
     public AttemptDto getAttemptDto(){

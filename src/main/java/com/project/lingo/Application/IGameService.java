@@ -15,6 +15,6 @@ public interface IGameService {
     Game newGame(User user);
     List<Game> findByUsername(String username) throws UserHasNoGamesException;
     Game post(Game game);
-    Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid;
+    Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid, NoAttemptsFoundException;
     Game validateGameUser(User user, long gameId) throws GameNotFoundException;
 }

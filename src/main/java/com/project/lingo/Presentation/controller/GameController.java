@@ -54,7 +54,7 @@ public class GameController {
             Game game = gameService.validateGameUser(user, gameId);
             Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
             return gson.toJson(gameService.attemptWord(game, attemptWord));
-        } catch (UserNotFoundException | GameNotFoundException | GameOverException | TooLateException | WordNotValid e) {
+        } catch (UserNotFoundException | GameNotFoundException | GameOverException | TooLateException | WordNotValid | NoAttemptsFoundException e) {
             return e.getMessage();
         }
     }

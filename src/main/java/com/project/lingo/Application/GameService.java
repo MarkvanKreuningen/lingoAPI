@@ -60,7 +60,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid {
+    public Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid, NoAttemptsFoundException {
         Attempt lastAttempt = attemptService.getLastAttemptByGame(game);
         game.legalAttempt(lastAttempt, this);
         return game.userPlays(lastAttempt, this, word, attemptService, filterFileService);

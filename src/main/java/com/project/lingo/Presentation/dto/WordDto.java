@@ -14,14 +14,23 @@ public class WordDto {
     private char firstLetter;
     private int lengthWord;
     private Timestamp created;
-    //TODO!!
-    //private int round;
+    private int round;
 
-    public WordDto(long gameId, char firstLetter, int lengthWord) {
+
+    public WordDto(long gameId, char firstLetter, int lengthWord, int round) {
         this.gameId = gameId;
         this.firstLetter = firstLetter;
         this.lengthWord = lengthWord;
         this.created = new Timestamp(System.currentTimeMillis());
+        this.round = round;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     public long getGameId() {
