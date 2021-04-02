@@ -12,13 +12,8 @@ import org.springframework.stereotype.Service;
 //https://www.youtube.com/watch?v=TDuVY8PFU3Q
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-
     @Autowired
     private UserRepository repository;
-
-    /*public MyUserDetailsService(UserRepository repository){
-        this.repository = repository;
-    }*/
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

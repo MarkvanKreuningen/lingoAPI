@@ -13,7 +13,6 @@ import java.util.List;
 
 @Service
 public class UserService implements IUserService{
-
     private UserRepository userRepository;
     private GameRepository gameRepository;
 

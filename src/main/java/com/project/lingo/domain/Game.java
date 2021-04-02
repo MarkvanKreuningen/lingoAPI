@@ -103,20 +103,20 @@ public class Game {
         this.attempts = pogingen;
     }
 
-    public Object userPlays(Attempt attempt, IGameService gameService, String word, IAttemptService attemptService, IFilterFileService filterFileService) throws WordNotValid, GameOverException {
+    public Object userPlays(Attempt attempt, IGameService gameService, String word, IAttemptService attemptService, IFilterFileService filterFileService) throws WordNotValidException, GameOverException {
         AttemptDto attemptDto = attemptService.getFeedback(attempt, word, this);
         if (attempt.getTeRadenWoord().equals(word)){
             WordDto wordDto = this.nextRound(filterFileService, attemptService, this.getNextWordLength(attempt.getTeRadenWoord()), attempt.getRound());
             gameService.post(this);
             return wordDto;
+        } else if (attempt.getTurn() >= 4){
+            this.setStatus(Status.GAMEOVER);
+            gameService.post(this);
+            throw new GameOverException("You did not guess the word within 5 turns");
         }
         return attemptDto;
     }
 
-    //TODO!!
-    //na 5 beurten gameover
-    //na een te laat beurt wel kunnen spelen maar 1 attempt extra posten naar repository
-    //attempt lastattempt = getlastattempt(); post(lastattempt);
     public void legalAttempt(Attempt lastAttempt, IGameService gameService) throws GameOverException, TooLateException {
         if (this.getStatus() == Status.GAMEOVER)
             throw new GameOverException("Game is already over");
@@ -137,25 +137,12 @@ public class Game {
         else return word.length() + 1;
     }
 
-    //TODO!!
     public WordDto nextRound(IFilterFileService filterFileService, IAttemptService attemptService, int lengthWord, int round) throws GameOverException {
-        if (this.getStatus() == Status.GAMEOVER){
-            throw new GameOverException("Game is already over");
-        }
         this.totalPoints += 25;
         round += 1;
-        System.out.println(this.toString() + "\n" + lengthWord);
-        Attempt attempt = attemptService.newAttempt(this, lengthWord, filterFileService, round);
+        Attempt attempt = attemptService.newRoundNewWord(this, lengthWord, filterFileService, round);
         return attempt.getWordDto();
     }
-
-    //TODO!!
-    public void newAttemptForEveryXMilliSeconds(IAttemptService attemptService, int lengthWord, IFilterFileService filterFileService){
-        for (int i = 150000; i > 60000; i =- 60000){
-            attemptService.newAttempt(this, lengthWord, filterFileService, 0);
-        }
-    }
-
 
     public WordDto start(IFilterFileService filterFileService, IAttemptService attemptService, IGameService gameService) throws GameOverException, StartedException {
         if (this.getStatus() == Status.GAMEOVER) {
@@ -164,12 +151,11 @@ public class Game {
             throw new StartedException("Game already started");
         }
         this.setStatus(Status.START);
-        WordDto wordDto = attemptService.newAttempt(this, 5, filterFileService, 1).getWordDto();
+        WordDto wordDto = attemptService.newRoundNewWord(this, 5, filterFileService, 1).getWordDto();
         gameService.post(this);
         return wordDto;
     }
 
-    //TODO!!
     public boolean durationTooLong(long startTime){
         long endTime = new Timestamp(System.currentTimeMillis()).getTime();
         long durationInMilliSeconds = endTime - startTime;
