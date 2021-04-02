@@ -1,6 +1,6 @@
 package com.project.lingo.validation;
 
-import com.project.lingo.Presentation.dto.UserDto;
+import com.project.lingo.presentation.dto.UserDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

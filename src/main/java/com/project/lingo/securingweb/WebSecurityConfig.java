@@ -1,7 +1,6 @@
 package com.project.lingo.securingweb;
 
-import com.project.lingo.Application.MyUserDetailsService;
-import com.project.lingo.Data.repository.UserRepository;
+import com.project.lingo.application.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
