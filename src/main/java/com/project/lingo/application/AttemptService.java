@@ -5,8 +5,9 @@ import com.project.lingo.domain.Attempt;
 import com.project.lingo.domain.Game;
 import com.project.lingo.presentation.dto.AttemptDto;
 import com.project.lingo.presentation.error.NoAttemptsFoundException;
-import com.project.lingo.presentation.error.WordNotValid;
+import com.project.lingo.presentation.error.WordNotValidException;
 import com.project.wordGenerator.application.IFilterFileService;
+import com.project.wordGenerator.application.IWordService;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -15,9 +16,11 @@ import java.util.List;
 @Service
 public class AttemptService implements IAttemptService {
     private AttemptRepository repository;
+    private IWordService wordService;
 
-    public AttemptService(AttemptRepository repository){
+    public AttemptService(AttemptRepository repository, IWordService wordService){
         this.repository = repository;
+        this.wordService = wordService;
     }
 
     @Override
@@ -40,14 +43,18 @@ public class AttemptService implements IAttemptService {
     }
 
     @Override
-    public AttemptDto getFeedback(Attempt attempt, String word, Game game) throws WordNotValid {
-        System.out.println(attempt.toString());
-        Attempt returnAttempt = repository.save(attempt.rateAttempt(attempt, word, game));
+    public AttemptDto getFeedback(Attempt attempt, String word, Game game) throws WordNotValidException {
+        attempt.checkLegalAttempt(attempt, word, game, this);
+        Attempt returnAttempt = repository.save(attempt.buildAttempt(attempt, word, game));
         return returnAttempt.getAttemptDto();
+    }
+    @Override
+    public boolean validateWord(String word) {
+        return wordService.validate(word);
     }
 
     @Override
-    public Attempt newAttempt(Game game, int lengthWord, IFilterFileService filterFileService, int round) {
+    public Attempt newRoundNewWord(Game game, int lengthWord, IFilterFileService filterFileService, int round) {
         Attempt attempt = new Attempt();
         attempt.setTeRadenWoord(lengthWord, filterFileService.getFilteredList());
         String wordToGuess = attempt.getTeRadenWoord();
@@ -58,6 +65,5 @@ public class AttemptService implements IAttemptService {
         post(attempt);
         return attempt;
     }
-
 
 }

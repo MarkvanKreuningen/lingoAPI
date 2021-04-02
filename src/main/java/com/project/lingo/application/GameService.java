@@ -7,6 +7,7 @@ import com.project.lingo.domain.User;
 import com.project.lingo.presentation.dto.WordDto;
 import com.project.lingo.presentation.error.*;
 import com.project.wordGenerator.application.IFilterFileService;
+import com.project.wordGenerator.application.IWordService;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +61,7 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValid, NoAttemptsFoundException {
+    public Object attemptWord(Game game, String word) throws TooLateException, GameOverException, WordNotValidException, NoAttemptsFoundException {
         Attempt lastAttempt = attemptService.getLastAttemptByGame(game);
         game.legalAttempt(lastAttempt, this);
         return game.userPlays(lastAttempt, this, word, attemptService, filterFileService);

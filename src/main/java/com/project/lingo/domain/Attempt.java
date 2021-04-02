@@ -1,9 +1,10 @@
 package com.project.lingo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.project.lingo.application.IAttemptService;
 import com.project.lingo.presentation.dto.AttemptDto;
 import com.project.lingo.presentation.dto.WordDto;
-import com.project.lingo.presentation.error.WordNotValid;
+import com.project.lingo.presentation.error.WordNotValidException;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -44,6 +45,14 @@ public class Attempt {
         this.teRadenWoord = teRadenWoord;
         this.created = new Timestamp(System.currentTimeMillis());
         this.feedback = createFeedback();
+        this.round = round;
+    }
+
+    public Attempt(int turn, String teRadenWoord, Game game, int round){
+        this.game = game;
+        this.turn = turn;
+        this.teRadenWoord = teRadenWoord;
+        this.created = new Timestamp(System.currentTimeMillis());
         this.round = round;
     }
 
@@ -136,12 +145,29 @@ public class Attempt {
         return Arrays.toString(feedback);
     }
 
-    public Attempt rateAttempt(Attempt attempt, String word, Game game) throws WordNotValid {
-        if (!word.equals("")){
-            if (word.length() != attempt.getTeRadenWoord().length())
-            throw new WordNotValid("Word empty/not the same length");
+    public Attempt buildAttempt(Attempt attempt, String word, Game game) {
+        Attempt returnAttempt = new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game, attempt.getRound());
+        System.out.println(returnAttempt.toString());
+        return returnAttempt;
+    }
+
+    public void checkLegalAttempt(Attempt attempt, String word, Game game, IAttemptService attemptService) throws WordNotValidException {
+        if (word.equals("")){
+            Attempt illegalAttempt = new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), game, attempt.getRound());
+            attemptService.post(illegalAttempt);
+            throw new WordNotValidException("Word is empty!");
+        } else if (word.length() != attempt.getTeRadenWoord().length()){
+            saveIllegalAttempt(attempt, word, game, attemptService);
+            throw new WordNotValidException("Word is not the same lenght as the word to guess");
+        } else if (!attemptService.validateWord(word)){
+            saveIllegalAttempt(attempt, word, game, attemptService);
+            throw new WordNotValidException("Word does not exist!");
         }
-        return new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game, attempt.getRound());
+    }
+
+    public void saveIllegalAttempt(Attempt attempt, String word, Game game, IAttemptService attemptService){
+        Attempt illegalAttempt = new Attempt(attempt.getTurn() + 1, attempt.getTeRadenWoord(), word, game, attempt.getRound());
+        attemptService.post(illegalAttempt);
     }
 
     public Timestamp getCreated() {
@@ -162,14 +188,6 @@ public class Attempt {
                 ", feedback='" + feedback + '\'' +
                 ", teRadenWoord='" + teRadenWoord + '\'' +
                 ", created=" + created +
-                '}';
-    }
-
-    public String toStringZonderTeRadenWoord(){
-        return "Attempt{" +
-                "turn=" + turn +
-                ", woordVanSpeler='" + woordVanSpeler + '\'' +
-                ", feedback='" + feedback + '\'' +
                 '}';
     }
 }

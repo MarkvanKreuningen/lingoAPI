@@ -5,6 +5,8 @@ import com.project.lingo.data.repository.AttemptRepository;
 import com.project.lingo.data.repository.GameRepository;
 import com.project.lingo.data.repository.UserRepository;
 import com.project.wordGenerator.application.IFilterFileService;
+import com.project.wordGenerator.application.IWordService;
+import com.project.wordGenerator.application.WordService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,11 +20,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @ComponentScan(basePackages = "com")
 public class AppConfig {
     @Bean
-    public ILingoService lingoService(GameRepository gameRepository){
-        return new LingoService(gameRepository);
-    }
-
-    @Bean
     public IUserService userService(UserRepository repository, GameRepository gameRepository){
         return new UserService(repository, gameRepository);
     }
@@ -30,13 +27,14 @@ public class AppConfig {
     public GameService gameService(GameRepository gameRepository, IFilterFileService filterFileService, IAttemptService attemptService){
         return new GameService(gameRepository, filterFileService, attemptService);
     }
+
     @Bean
-    public UserDetailsService userDetailsService(){
-        return new MyUserDetailsService();
+    public IAttemptService attemptService(AttemptRepository attemptRepository, IWordService wordService){
+        return new AttemptService(attemptRepository, wordService);
     }
 
     @Bean
-    public IAttemptService attemptService(AttemptRepository attemptRepository){
-        return new AttemptService(attemptRepository);
+    public IWordService wordService(IFilterFileService filterFileService){
+        return new WordService(filterFileService);
     }
 }
