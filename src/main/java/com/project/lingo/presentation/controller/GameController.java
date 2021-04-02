@@ -3,7 +3,6 @@ package com.project.lingo.presentation.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.lingo.application.ExcludeProxiedFields;
-import com.project.lingo.application.ILingoService;
 import com.project.lingo.application.IGameService;
 import com.project.lingo.application.IUserService;
 import com.project.lingo.domain.*;
@@ -20,12 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class GameController {
-    private ILingoService lingoService;
     private IUserService userService;
     private IGameService gameService;
 
-    public GameController(ILingoService lingoService, IUserService userService, IGameService gameService) {
-        this.lingoService = lingoService;
+    public GameController(IUserService userService, IGameService gameService) {
         this.userService = userService;
         this.gameService = gameService;
     }
@@ -54,7 +51,7 @@ public class GameController {
             Game game = gameService.validateGameUser(user, gameId);
             Gson gson = new GsonBuilder().setExclusionStrategies(new ExcludeProxiedFields()).create();
             return gson.toJson(gameService.attemptWord(game, attemptWord));
-        } catch (UserNotFoundException | GameNotFoundException | GameOverException | TooLateException | WordNotValid | NoAttemptsFoundException e) {
+        } catch (UserNotFoundException | GameNotFoundException | GameOverException | TooLateException | WordNotValidException | NoAttemptsFoundException e) {
             return e.getMessage();
         }
     }
@@ -82,12 +79,5 @@ public class GameController {
         } catch (GameNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-    }
-
-    @RequestMapping(value = "/start2spelers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody LingoMet2Spelers getStartSpel(@RequestParam String naamSpeler1,
-                                  @RequestParam String naamSpeler2,
-                                  @RequestParam int tijdPerBeurt) {
-        return lingoService.gameMet2Spelers(naamSpeler1, naamSpeler2, tijdPerBeurt);
     }
 }
