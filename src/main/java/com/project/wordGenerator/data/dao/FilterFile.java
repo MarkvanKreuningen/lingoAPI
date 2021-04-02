@@ -1,4 +1,4 @@
-package com.project.lingo.data.dao;
+package com.project.wordGenerator.data.dao;
 
 import java.util.ArrayList;
 

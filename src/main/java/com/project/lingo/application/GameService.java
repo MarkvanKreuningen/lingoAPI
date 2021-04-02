@@ -6,6 +6,7 @@ import com.project.lingo.domain.Game;
 import com.project.lingo.domain.User;
 import com.project.lingo.presentation.dto.WordDto;
 import com.project.lingo.presentation.error.*;
+import com.project.wordGenerator.application.IFilterFileService;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class GameService implements IGameService {
     public Game findById(long id) throws GameNotFoundException {
         Optional<Game> object = repository.findById(id);
         if (!object.isPresent())
-            throw new GameNotFoundException("Game niet gevonden");
+            throw new GameNotFoundException("Game not found");
         return object.get();
     }
     @Override
@@ -54,7 +55,7 @@ public class GameService implements IGameService {
     public List<Game> findByUsername(String username) throws UserHasNoGamesException {
         List<Game> games = repository.findGamesForPlayerByUsername(username);
         if (games == null)
-            throw new UserHasNoGamesException("Deze speler heeft geen games");
+            throw new UserHasNoGamesException("User has no games");
         return games;
     }
 
@@ -72,6 +73,6 @@ public class GameService implements IGameService {
             if (game.isPresent()){
                 return game.get();
             } else throw new UserNotFoundException("User not found with this game");
-        } else throw new GameNotFoundException("Game niet gevonden");
+        } else throw new GameNotFoundException("Game not found");
     }
 }

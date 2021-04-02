@@ -1,7 +1,7 @@
 package com.project.lingo.domain;
 
-import com.project.lingo.application.FilterFileService;
-import com.project.lingo.application.IFilterFileService;
+import com.project.wordGenerator.application.FilterFileService;
+import com.project.wordGenerator.application.IFilterFileService;
 
 import java.util.List;
 import java.util.Random;

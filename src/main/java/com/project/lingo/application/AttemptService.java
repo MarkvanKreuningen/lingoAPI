@@ -6,6 +6,7 @@ import com.project.lingo.domain.Game;
 import com.project.lingo.presentation.dto.AttemptDto;
 import com.project.lingo.presentation.error.NoAttemptsFoundException;
 import com.project.lingo.presentation.error.WordNotValid;
+import com.project.wordGenerator.application.IFilterFileService;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;

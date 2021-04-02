@@ -1,7 +1,7 @@
-package com.project.lingo.application;
+package com.project.wordGenerator.application;
 
-import com.project.lingo.data.dao.FilterFile;
-import com.project.lingo.data.dao.FilterFileDao;
+import com.project.wordGenerator.data.dao.FilterFile;
+import com.project.wordGenerator.data.dao.FilterFileDao;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

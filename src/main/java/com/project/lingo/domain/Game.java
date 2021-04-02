@@ -1,7 +1,7 @@
 package com.project.lingo.domain;
 
 import com.project.lingo.application.IAttemptService;
-import com.project.lingo.application.IFilterFileService;
+import com.project.wordGenerator.application.IFilterFileService;
 import com.project.lingo.application.IGameService;
 import com.project.lingo.presentation.dto.AttemptDto;
 import com.project.lingo.presentation.dto.WordDto;

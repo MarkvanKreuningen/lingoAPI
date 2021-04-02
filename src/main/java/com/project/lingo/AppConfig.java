@@ -4,6 +4,7 @@ import com.project.lingo.application.*;
 import com.project.lingo.data.repository.AttemptRepository;
 import com.project.lingo.data.repository.GameRepository;
 import com.project.lingo.data.repository.UserRepository;
+import com.project.wordGenerator.application.IFilterFileService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

@@ -1,4 +1,4 @@
-package com.project.lingo.application;
+package com.project.wordGenerator.application;
 
 import java.util.List;
 
