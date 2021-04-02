@@ -1,10 +1,10 @@
 package com.project.lingo;
 
-import com.project.lingo.Application.*;
-import com.project.lingo.Data.repository.AttemptRepository;
-import com.project.lingo.Data.repository.GameRepository;
-import com.project.lingo.Data.repository.UserRepository;
-import com.project.lingo.Domain.Game;
+import com.project.lingo.application.*;
+import com.project.lingo.data.repository.AttemptRepository;
+import com.project.lingo.data.repository.GameRepository;
+import com.project.lingo.data.repository.UserRepository;
+import com.project.wordGenerator.application.IFilterFileService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
