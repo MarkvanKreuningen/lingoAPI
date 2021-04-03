@@ -1,23 +1,27 @@
 package com.project.wordGenerator.application;
 
+import com.project.lingo.presentation.controller.LoggingController;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import org.slf4j.Logger;
 
 @Service
 public class WordService implements IWordService{
     private IFilterFileService filterFileService;
     private Random rand;
+    Logger logger = LoggerFactory.getLogger(LoggingController.class);
 
     public WordService(IFilterFileService filterFileService) {
         this.filterFileService = filterFileService;
         try {
             rand = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
 
     }
