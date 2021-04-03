@@ -9,6 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -22,7 +25,7 @@ public class validateWordTest {
 
     @Test
     @DisplayName("Validate legal user input words")
-    void acceptWordsBetween5And7Letters(){
+    void acceptWordsBetween5And7Letters() throws NoSuchAlgorithmException {
         //Arrange
         IFilterFileService filterFileService = new FilterFileService();
         IWordService wordService = new WordService(filterFileService);
@@ -43,7 +46,7 @@ public class validateWordTest {
 
     @Test
     @DisplayName("Validate illegal user input word")
-    void failWordsBetween5And7Letters(){
+    void failWordsBetween5And7Letters() throws NoSuchAlgorithmException {
         //Arrange
         IFilterFileService filterFileService = new FilterFileService();
         IWordService wordService = new WordService(filterFileService);
@@ -63,7 +66,7 @@ public class validateWordTest {
     }
 
     @Test
-    void successfulOnConstruct(){
+    void successfulOnConstruct() throws IOException {
         FilterFileOnStartup filterFileOnStartup = new FilterFileOnStartup();
         //verify(filterFileOnStartup, atMost(1).filter);
         filterFileOnStartup.filterFileOnStartup();

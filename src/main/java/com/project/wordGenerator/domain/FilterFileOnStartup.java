@@ -10,11 +10,10 @@ import java.util.regex.Pattern;
 @Component
 public class FilterFileOnStartup {
     @PostConstruct
-    public void filterFileOnStartup() {
-        try {
-            Scanner input = new Scanner(new File("src/main/resources/static/basiswoorden-gekeurd.txt"));
-            File file = new File("src/main/resources/static/basiswoorden-gekeurd-gefilterd.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    public void filterFileOnStartup() throws IOException {
+        File file = new File("src/main/resources/static/basiswoorden-gekeurd-gefilterd.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+             Scanner input = new Scanner(new File("src/main/resources/static/basiswoorden-gekeurd.txt"))) {
             String pattern = "^[a-z]{5,7}+$";
             while (input.hasNextLine()) {
                 String word = input.nextLine();
@@ -23,9 +22,7 @@ public class FilterFileOnStartup {
                     writer.append("\n");
                 }
             }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
     }
 }
