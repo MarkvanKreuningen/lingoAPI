@@ -5,4 +5,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IWordService {
     boolean validate(String word);
+    String getWord(int length);
 }

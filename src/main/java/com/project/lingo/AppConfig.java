@@ -13,6 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.security.NoSuchAlgorithmException;
+
 //https://docs.spring.io/spring-javaconfig/docs/1.0.0.m3/reference/html/creating-bean-definitions.html
 //https://www.baeldung.com/spring-component-scanning
 @Configuration
@@ -20,8 +22,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @ComponentScan(basePackages = "com")
 public class AppConfig {
     @Bean
-    public IUserService userService(UserRepository repository, GameRepository gameRepository){
-        return new UserService(repository, gameRepository);
+    public IUserService userService(UserRepository repository){
+        return new UserService(repository);
     }
     @Bean
     public GameService gameService(GameRepository gameRepository, IFilterFileService filterFileService, IAttemptService attemptService){
@@ -34,7 +36,7 @@ public class AppConfig {
     }
 
     @Bean
-    public IWordService wordService(IFilterFileService filterFileService){
+    public IWordService wordService(IFilterFileService filterFileService) {
         return new WordService(filterFileService);
     }
 }

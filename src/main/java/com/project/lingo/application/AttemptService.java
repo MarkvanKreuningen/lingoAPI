@@ -56,7 +56,7 @@ public class AttemptService implements IAttemptService {
     @Override
     public Attempt newRoundNewWord(Game game, int lengthWord, IFilterFileService filterFileService, int round) {
         Attempt attempt = new Attempt();
-        attempt.setTeRadenWoord(lengthWord, filterFileService.getFilteredList());
+        attempt.setTeRadenWoord(wordService.getWord(lengthWord));
         String wordToGuess = attempt.getTeRadenWoord();
         attempt.setTurn(getTotalTurns(wordToGuess, game.getId()));
         attempt.setGame(game);
