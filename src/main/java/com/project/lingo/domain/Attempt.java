@@ -112,15 +112,8 @@ public class Attempt {
         return teRadenWoord;
     }
 
-    public void setTeRadenWoord(int lengte, List<String> list) {
-        Random random = new Random();
-        this.teRadenWoord = "";
-        while (true) {
-            if (teRadenWoord.length() != lengte)
-                teRadenWoord = list.get(random.nextInt(list.size()));
-            else
-                break;
-        }
+    public void setTeRadenWoord(String teRadenWoord) {
+        this.teRadenWoord = teRadenWoord;
     }
 
     public String createFeedback(){

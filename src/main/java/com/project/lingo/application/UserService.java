@@ -1,6 +1,5 @@
 package com.project.lingo.application;
 
-import com.project.lingo.data.repository.GameRepository;
 import com.project.lingo.data.repository.UserRepository;
 import com.project.lingo.domain.User;
 import com.project.lingo.presentation.dto.UserDto;
@@ -14,11 +13,9 @@ import java.util.List;
 @Service
 public class UserService implements IUserService{
     private UserRepository userRepository;
-    private GameRepository gameRepository;
 
-    public UserService(UserRepository userRepository, GameRepository gameRepository){
+    public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
-        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -41,25 +38,14 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
     public User findByUsername(String username) {
-        System.out.println(username+" versie 2");
         if (usernameExists(username))
             return userRepository.findByUsername(username);
-        else throw new UserNotFoundException("er is geen account met deze gebruikersnaam");
+        else throw new UserNotFoundException("Player not found with username: "+username);
     }
 
     private boolean usernameExists(String username) {
         return userRepository.findByUsername(username) != null;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
     }
 
     @Override
@@ -81,9 +67,10 @@ public class UserService implements IUserService{
         } else {
             username = principal.toString();
         }
+        System.out.println(username);
         if (usernameExists(username))
             return userRepository.findByUsername(username);
-        else throw new UserNotFoundException("player not found");
+        else throw new UserNotFoundException("Player not found");
 
     }
 

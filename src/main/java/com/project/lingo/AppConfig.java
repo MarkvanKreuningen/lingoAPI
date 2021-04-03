@@ -20,8 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @ComponentScan(basePackages = "com")
 public class AppConfig {
     @Bean
-    public IUserService userService(UserRepository repository, GameRepository gameRepository){
-        return new UserService(repository, gameRepository);
+    public IUserService userService(UserRepository repository){
+        return new UserService(repository);
     }
     @Bean
     public GameService gameService(GameRepository gameRepository, IFilterFileService filterFileService, IAttemptService attemptService){

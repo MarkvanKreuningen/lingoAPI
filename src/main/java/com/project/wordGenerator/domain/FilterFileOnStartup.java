@@ -1,4 +1,4 @@
-package com.project.wordGenerator.data.dao;
+package com.project.wordGenerator.domain;
 
 import org.springframework.stereotype.Component;
 
