@@ -67,7 +67,6 @@ public class UserService implements IUserService{
         } else {
             username = principal.toString();
         }
-        System.out.println(username);
         if (usernameExists(username))
             return userRepository.findByUsername(username);
         else throw new UserNotFoundException("Player not found");
