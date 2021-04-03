@@ -36,7 +36,7 @@ public class AppConfig {
     }
 
     @Bean
-    public IWordService wordService(IFilterFileService filterFileService) throws NoSuchAlgorithmException {
+    public IWordService wordService(IFilterFileService filterFileService) {
         return new WordService(filterFileService);
     }
 }
