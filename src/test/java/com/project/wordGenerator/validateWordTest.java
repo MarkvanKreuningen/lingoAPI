@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class validateWordTest {
+class validateWordTest {
     private static FilterFileOnStartup filterFileOnStartup;
 
     @BeforeAll

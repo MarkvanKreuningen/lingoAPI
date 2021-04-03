@@ -10,10 +10,16 @@ import java.util.Random;
 @Service
 public class WordService implements IWordService{
     private IFilterFileService filterFileService;
-    private Random rand = SecureRandom.getInstanceStrong();
+    private Random rand;
 
-    public WordService(IFilterFileService filterFileService) throws NoSuchAlgorithmException {
+    public WordService(IFilterFileService filterFileService) {
         this.filterFileService = filterFileService;
+        try {
+            rand = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
