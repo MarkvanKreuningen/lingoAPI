@@ -43,7 +43,9 @@ public class GameService implements IGameService {
     @Override
     public WordDto start(long id) throws StartedException, GameOverException {
         Optional<Game> object = repository.findById(id);
-        return object.get().start(filterFileService, attemptService, this);
+        if (object.isPresent())
+            return object.get().start(filterFileService, attemptService, this);
+        else return null;
     }
 
     @Override

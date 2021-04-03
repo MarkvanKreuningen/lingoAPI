@@ -10,8 +10,7 @@ public class FilterFileDao implements FilterFile {
     @Override
     public ArrayList<String> getList() {
         ArrayList<String> filteredArrayList = new ArrayList<>();
-        try {
-            Scanner input = new Scanner(new File("src/main/resources/static/basiswoorden-gekeurd-gefilterd.txt"));
+        try (Scanner input = new Scanner(new File("src/main/resources/static/basiswoorden-gekeurd-gefilterd.txt"))){
             while (input.hasNextLine()) {
                 String word = input.nextLine();
                 filteredArrayList.add(word);
