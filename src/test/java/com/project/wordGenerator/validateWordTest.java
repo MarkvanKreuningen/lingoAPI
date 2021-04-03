@@ -65,12 +65,5 @@ public class validateWordTest {
         assertFalse(accepts7Letter);
     }
 
-    @Test
-    void successfulOnConstruct() throws IOException {
-        FilterFileOnStartup filterFileOnStartup = new FilterFileOnStartup();
-        //verify(filterFileOnStartup, atMost(1).filter);
-        filterFileOnStartup.filterFileOnStartup();
-    }
-
 
 }
